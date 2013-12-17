@@ -1,6 +1,7 @@
 package com.krot.sumorsubtract;
 
 import android.app.Activity;
+import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +9,24 @@ import android.widget.TextView;
 //import android.view.Menu;
 
 public class MainActivity extends Activity {
-	//static final int QUERY_OPERANDS_REQUEST = 0;
 	static final int QUERY_OPERANDS_REQUEST_FOR_SUM = 1;
 	static final int QUERY_OPERANDS_REQUEST_FOR_SUBTRACT = 2;
+	
+	protected OperationHistory operationHistory;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Log.d("onCreate was triggered", "zzz");
+
+		if (savedInstanceState == null) {
+			operationHistory = new OperationHistory();
+		} else {
+			// TODO: restore history from saved object
+			Log.d("Restore from saved", "mmm. how?");
+		}
 	}
 
 	public void queryOperandValuesForSum(View view) {
@@ -28,6 +39,31 @@ public class MainActivity extends Activity {
 		startActivityForResult(intent, QUERY_OPERANDS_REQUEST_FOR_SUBTRACT);
 	};
 
+	public void findCurrentInHistory(View view) {	
+		TextView tvOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
+		String operationId = tvOperationId.getText().toString();
+
+		if (operationId.length() == 0) {
+			// TODO: what should we do if nothing was input? perhaps it makes sense
+			// disabling the = button when the edit box is empty? Then this branch is useless
+			// Log.d("Empty operation id", operationId);
+		} else {
+			// the inputType was set to numeric, that restricts input to non-negative numbers
+			operationHistory.goToItemAt(Integer.parseInt(operationId));
+			showHistoryItem();
+		}
+	};
+
+	public void findPreviousInHistory(View view) {	
+		operationHistory.goToPreviousItem();
+		showHistoryItem();
+	};
+
+	public void findNextInHistory(View view) {
+		operationHistory.goToNextItem();
+		showHistoryItem();
+	};
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		if (requestCode == QUERY_OPERANDS_REQUEST_FOR_SUM || requestCode == QUERY_OPERANDS_REQUEST_FOR_SUBTRACT) {
 
@@ -37,16 +73,19 @@ public class MainActivity extends Activity {
 
 			if (resultCode == RESULT_OK) {
 
-				String op1 = resultData.getStringExtra("operand_1");
-				String op2 = resultData.getStringExtra("operand_2");
+				String op1 = resultData.getStringExtra(QueryOperandValuesActivity.OPERAND1);
+				String op2 = resultData.getStringExtra(QueryOperandValuesActivity.OPERAND2);
 				
 				int res = 0;
 				if (requestCode == QUERY_OPERANDS_REQUEST_FOR_SUM) {
-					res = Integer.parseInt(op1) + Integer.parseInt(op2);		
+					res = Integer.parseInt(op1) + Integer.parseInt(op2);
+					addToHistory(OperationHistory.ADDITION, res);
+	
 				} else if (requestCode == QUERY_OPERANDS_REQUEST_FOR_SUBTRACT) {
 					res = Integer.parseInt(op1) - Integer.parseInt(op2);
+					addToHistory(OperationHistory.SUBTRACTION, res);
 				}
-						
+
 				tv_op1.setText(op1);
 				tv_op2.setText(op2);
 				tv_res.setText(String.valueOf(res));
@@ -58,5 +97,23 @@ public class MainActivity extends Activity {
 				tv_res.setText(R.string.operation_canceled);
 			}
 		}
+	};
+	
+	protected void showHistoryItem() {
+		// TODO: show somehow that the last user's attempt (invalid operation number) was incorrect
+		
+		TextView viewOperationId     = (TextView) findViewById(R.id.ev_history_operation_id);
+		TextView viewOperationName   = (TextView) findViewById(R.id.tv_history_operation_name);
+		TextView viewOperationResult = (TextView) findViewById(R.id.tv_history_result_value);
+		
+		viewOperationId.setText(String.valueOf(operationHistory.getHistoryItemId()));
+		viewOperationName.setText(operationHistory.getOperation());
+		viewOperationResult.setText(String.valueOf(operationHistory.getResult()));
+	}
+	
+	protected void addToHistory(String opName, int opResult) {
+		operationHistory.addItem(opName, opResult);
+		TextView viewHistorySize = (TextView) findViewById(R.id.history_size_value);
+		viewHistorySize.setText(String.valueOf(operationHistory.size()));
 	}
 }

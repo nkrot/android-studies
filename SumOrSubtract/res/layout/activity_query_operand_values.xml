@@ -27,7 +27,8 @@
         	android:layout_weight="0.5"
         	android:ems="10"
         	android:hint="@string/the_1st_operand"
-        	android:enabled="true" >
+        	android:enabled="true"
+        	android:inputType="number" >
 
             <requestFocus />
         </EditText>
@@ -39,7 +40,8 @@
             android:layout_weight="0.5"
             android:ems="10"
             android:hint="@string/the_2nd_operand"
-            android:enabled="true" />
+            android:enabled="true"
+            android:inputType="number" />
    </LinearLayout>
  
    <LinearLayout
@@ -49,10 +51,11 @@
         android:layout_below="@+id/operands_layout"
         android:layout_marginTop="50dp"
         android:orientation="horizontal" >
-
+    	<!-- TODO: move layout_marginTop into dimen -->
+ 
         <Button
             android:id="@+id/btn_do"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/compute"
             android:layout_weight="0.5"

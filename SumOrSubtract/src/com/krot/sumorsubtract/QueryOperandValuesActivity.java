@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 public class QueryOperandValuesActivity extends Activity {
-
+	public static final String OPERAND1 = "operand_1";
+	public static final String OPERAND2 = "operand_2";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,8 +21,8 @@ public class QueryOperandValuesActivity extends Activity {
 		TextView tv_op2 = (TextView) findViewById(R.id.query_operand_2);
 
 		Intent resultData = new Intent();
-		resultData.putExtra("operand_1", tv_op1.getText().toString());
-		resultData.putExtra("operand_2", tv_op2.getText().toString());
+		resultData.putExtra(OPERAND1, tv_op1.getText().toString());
+		resultData.putExtra(OPERAND2, tv_op2.getText().toString());
 		
 		setResult(RESULT_OK, resultData);
 		finish();
