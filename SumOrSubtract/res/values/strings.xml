@@ -23,4 +23,6 @@
 	<string name="next_in_history">&gt;</string>
 	<string name="find_in_history">=</string>
 	<string name="operation">Операция</string>
+	<string name="invalid_history_item_id">Неверный номер операции в истории операций</string>
+	<string name="gotyou">Понял</string>
 </resources>
