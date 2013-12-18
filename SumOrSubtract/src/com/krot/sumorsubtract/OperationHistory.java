@@ -12,6 +12,7 @@ public class OperationHistory {
 	protected int currentItemIdx = 0; // ID of the last requested valid item
 	protected int invalidItemIdx = 0; // ID of the last requested invalid item
 	protected boolean requestIsInvalid = false;
+	protected boolean hasValidRequests = false;
 	
 	public void addItem(String operationName, int operationResult) {
 		HistoryItem item = new HistoryItem(operationName, operationResult);
@@ -34,29 +35,27 @@ public class OperationHistory {
 		return items.size();
 	}
 	
-	public boolean isEmpty() {
-		return size() == 0;
+	public boolean hadValidQueries() {
+		return hasValidRequests || currentItemIdx > 0;
 	}
+	
 	public void goToPreviousItem() {
-		resetInvalidItem();
 		if (currentItemIdx > 0)
-			currentItemIdx --;
+			setValidItem(currentItemIdx-1);
 		else
 			setInvalidItem(currentItemIdx-1);
 	}
 	
 	public void goToNextItem() {
-		resetInvalidItem();
-		if (currentItemIdx < this.size()-1)
-			currentItemIdx ++;
+		if (currentItemIdx < size()-1)
+			setValidItem(currentItemIdx+1);
 		else
 			setInvalidItem(currentItemIdx+1);
 	}
 	
 	public void goToItemAt(int idx) {
-		resetInvalidItem();
-		if (idx > 0 && idx < this.size()-1)
-			currentItemIdx = idx;
+		if (idx > -1 && idx < size())
+			setValidItem(idx);
 		else
 			setInvalidItem(idx);
 	}
@@ -69,6 +68,11 @@ public class OperationHistory {
 		return requestIsInvalid;
 	}
 
+	protected void setValidItem(int val) {
+		resetInvalidItem();
+		currentItemIdx = val;
+		hasValidRequests = true;
+	}
 	protected void setInvalidItem(int val) {
 		requestIsInvalid = true;
 		invalidItemIdx = val;

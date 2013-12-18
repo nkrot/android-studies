@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-//import android.view.Menu;
 
 public class MainActivity extends Activity {
 	static final int QUERY_OPERANDS_REQUEST_FOR_SUM = 1;
@@ -105,15 +104,13 @@ public class MainActivity extends Activity {
 		if (operationHistory.mostRecentQueryWasInvalid()) {
 			// TODO: how to pass additional info into the dialog? e.g. the invalid value
 			showInvalidHistoryItemDialog();
+
+			// clear invalid user query
+			TextView viewOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
+			viewOperationId.setText("");
 		}
 		
-		// TODO: should show the last user's request! and not show anything if there is no valid user queries in the past
-		// scenario: 
-		//  1) accomplish a computation (history gets an item)
-		//  2) input an invalid number i operation id box
-		//  3) let the dialog appear, close it
-		/// 4) the 0th item is the history is shown. while NOTHING should be shown
-		if (! operationHistory.isEmpty()) {
+		if (operationHistory.hadValidQueries()) {
 			TextView viewOperationId     = (TextView) findViewById(R.id.ev_history_operation_id);
 			TextView viewOperationName   = (TextView) findViewById(R.id.tv_history_operation_name);
 			TextView viewOperationResult = (TextView) findViewById(R.id.tv_history_result_value);
