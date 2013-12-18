@@ -15,13 +15,12 @@ public class InvalidHistoryItemDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		
 		builder.setMessage(R.string.invalid_history_item_id)
-			   .setPositiveButton(R.string.gotyou, 
-					   				new DialogInterface.OnClickListener() {
+		       .setPositiveButton(R.string.gotyou, new DialogInterface.OnClickListener() {
 				   @Override
 				   public void onClick(DialogInterface dialog, int which) {
 					   // TODO Auto-generated method stub
 				   }
-			   });
+		        });
 		return builder.create();
 	}
 }
