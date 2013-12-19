@@ -31,12 +31,16 @@ public class OperationHistory {
 		return currentItemIdx;
 	}
 	
+	public int getInvalidItemId() {
+	    return invalidItemIdx;
+	}
+	
 	public int size() {
 		return items.size();
 	}
 	
 	public boolean hadValidQueries() {
-		return hasValidRequests || currentItemIdx > 0;
+		return hasValidRequests;
 	}
 	
 	public void goToPreviousItem() {
@@ -64,7 +68,7 @@ public class OperationHistory {
 		return items.get(currentItemIdx);
 	}
 	
-	public boolean mostRecentQueryWasInvalid() {
+	public boolean wasMostRecentQueryInvalid() {
 		return requestIsInvalid;
 	}
 

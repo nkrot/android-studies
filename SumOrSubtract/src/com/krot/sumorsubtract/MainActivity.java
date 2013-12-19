@@ -1,7 +1,9 @@
 package com.krot.sumorsubtract;
 
 import android.app.Activity;
-import android.app.DialogFragment;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	static final int QUERY_OPERANDS_REQUEST_FOR_SUM = 1;
 	static final int QUERY_OPERANDS_REQUEST_FOR_SUBTRACT = 2;
+	static final int INVALID_HISTORY_ITEM_DLG = 1;
 	
 	protected OperationHistory operationHistory;
 	
@@ -99,12 +102,12 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-	protected void showHistoryItem() {
+	@SuppressWarnings("deprecation")
+    protected void showHistoryItem() {
 		
-		if (operationHistory.mostRecentQueryWasInvalid()) {
-			// TODO: how to pass additional info into the dialog? e.g. the invalid value
-			showInvalidHistoryItemDialog();
-
+		if (operationHistory.wasMostRecentQueryInvalid()) {
+		    showDialog(INVALID_HISTORY_ITEM_DLG);
+		    
 			// clear invalid user query
 			TextView viewOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
 			viewOperationId.setText("");
@@ -127,8 +130,30 @@ public class MainActivity extends Activity {
 		viewHistorySize.setText(String.valueOf(operationHistory.size()));
 	}
 	
-	protected void showInvalidHistoryItemDialog() {
-		DialogFragment dialog = new InvalidHistoryItemDialogFragment();
-		dialog.show(getFragmentManager(), "invalid_history_item");
+	@Override
+	protected Dialog onCreateDialog(int dialogId) {
+	    // http://www.vogella.com/articles/AndroidDialogs/article.html#tutorial_alertdialog
+	        
+	    switch (dialogId) {
+	    case INVALID_HISTORY_ITEM_DLG:
+	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        
+	        String msg = getString(R.string.invalid_history_item_id)
+	                     .concat(": ")
+	                     .concat(String.valueOf(operationHistory.getInvalidItemId()));
+	        
+	        builder.setMessage(msg)
+	               .setPositiveButton(R.string.gotyou, new DialogInterface.OnClickListener() {
+	                   @Override
+	                   public void onClick(DialogInterface dialog, int which) {
+	                       // TODO: what to write here?
+	                   }
+	                });
+	        
+	        Dialog dialog = builder.create();
+	        dialog.show();
+	    }
+	    
+	    return super.onCreateDialog(dialogId);
 	}
 }
