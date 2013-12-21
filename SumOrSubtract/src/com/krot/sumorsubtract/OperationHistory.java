@@ -3,9 +3,12 @@ package com.krot.sumorsubtract;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 //import android.util.Log;
 
-public class OperationHistory {
+public class OperationHistory implements Parcelable {
     public static final String ADDITION = "+";
     public static final String SUBTRACTION = "-";
 
@@ -14,6 +17,10 @@ public class OperationHistory {
     protected int invalidItemIdx = 0; // ID of the last requested invalid item
     protected boolean requestIsInvalid = false;
     protected boolean hasValidRequests = false;
+
+    OperationHistory() {
+
+    }
 
     public void addItem(String operationName, int operationResult) {
         HistoryItem item = new HistoryItem(operationName, operationResult);
@@ -88,7 +95,48 @@ public class OperationHistory {
         requestIsInvalid = false;
     }
 
-    private class HistoryItem {
+    /*
+     * make it Parcelable
+     */
+
+    public static final Parcelable.Creator<OperationHistory> CREATOR =
+            new Parcelable.Creator<OperationHistory>() {
+                public OperationHistory createFromParcel(Parcel in) {
+                    return new OperationHistory(in);
+                };
+
+                public OperationHistory[] newArray(int size) {
+                    return new OperationHistory[size];
+                };
+            };
+
+    public OperationHistory(Parcel in) {
+        readFromParcel(in);
+    }
+
+    private void readFromParcel(Parcel in) {
+        items = in.readArrayList(HistoryItem.class.getClassLoader());
+        currentItemIdx = in.readInt();
+        invalidItemIdx = in.readInt();
+        requestIsInvalid = in.readByte() != 0;
+        hasValidRequests = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flag) {
+        out.writeList(items);
+        out.writeInt(currentItemIdx);
+        out.writeInt(invalidItemIdx);
+        out.writeByte((byte) (requestIsInvalid ? 1 : 0));
+        out.writeByte((byte) (hasValidRequests ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    private class HistoryItem implements Parcelable {
         private String operation;
         private int result;
 
@@ -103,6 +151,30 @@ public class OperationHistory {
 
         public int getResult() {
             return result;
+        }
+
+        /*
+         * Make it Parcelable
+         */
+
+        protected HistoryItem(Parcel in) {
+            readFromParcel(in);
+        }
+
+        protected void readFromParcel(Parcel in) {
+            operation = in.readString();
+            result = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            out.writeString(operation);
+            out.writeInt(result);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
         }
     }
 }
