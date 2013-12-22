@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+    <!-- tools:context=".MainActivity" -->
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_message" />
+
+    <LinearLayout
+        android:id="@+id/sum_subtract_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:layout_weight="0.5"
+            android:onClick="queryOperandValuesForSum" />
+ 
+        <Button
+            android:id="@+id/btn_subtract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/subtract"
+            android:onClick="queryOperandValuesForSubtract"  />
+     </LinearLayout>
+
+   	<LinearLayout
+        android:id="@+id/values_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sum_subtract_layout"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/operand_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:ems="10"
+            android:hint="@string/the_1st_operand"
+            android:enabled="false" >
+
+            <requestFocus />
+        </EditText>
+ 
+        <EditText
+            android:id="@+id/operand_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:ems="10"
+            android:hint="@string/the_2nd_operand"
+            android:enabled="false" />
+ 
+        <EditText
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:ems="10"
+            android:hint="@string/result"
+            android:enabled="false" />
+ 
+     </LinearLayout>
+
+   	<LinearLayout
+        android:id="@+id/history_header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/values_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+   	
+   		<TextView
+        	android:id="@+id/textView2"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="0.50"
+        	android:text="@string/history_and_size" />
+   
+   		<TextView
+        	android:id="@+id/history_size_value"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="0.50"
+        	android:text="@string/zero" />
+  	
+	</LinearLayout>
+
+   	<LinearLayout
+        android:id="@+id/history_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/history_header_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+   	    <EditText
+        	android:id="@+id/ev_history_operation_id"
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="0.40"
+        	android:hint="@string/operation_id"
+        	android:inputType="number" />
+
+   	    <Button
+            android:id="@+id/btn_history_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.20"
+            android:text="@string/find_in_history"
+            android:onClick="findCurrentInHistory" />
+   	            	    
+        <Button
+            android:id="@+id/btn_history_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.20"
+            android:text="@string/previous_in_history"
+            android:onClick="findPreviousInHistory" />
+ 
+        <Button
+            android:id="@+id/btn_history_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.20"
+            android:text="@string/next_in_history"
+            android:onClick="findNextInHistory" />
+        
+     </LinearLayout>
+
+   	<LinearLayout
+        android:id="@+id/history_operation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/history_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+   	    <TextView
+        	android:id="@+id/tv_history_operation_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+        	android:text="@string/operation" />
+ 
+   	   	<TextView
+        	android:id="@+id/tv_history_operation_name"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+            android:layout_weight="0.50"/>
+   	    
+   	</LinearLayout>
+
+   	<LinearLayout
+        android:id="@+id/history_result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/history_operation_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+   	    <TextView
+        	android:id="@+id/tv_history_result_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+        	android:text="@string/result" />
+ 
+   	   	<TextView
+        	android:id="@+id/tv_history_result_value"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+            android:layout_weight="0.50"/>
+   	    
+   	</LinearLayout>
+   			
+</RelativeLayout>
