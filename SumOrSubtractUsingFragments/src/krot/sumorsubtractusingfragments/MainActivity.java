@@ -1,7 +1,10 @@
 package krot.sumorsubtractusingfragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -19,6 +22,7 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction().add(R.id.phone_container, mainFragment).commit();
         }
     }
+
     /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -27,4 +31,31 @@ public class MainActivity extends Activity {
         return true;
     }*/
 
+    public void queryOperandValuesForSum(View view) {
+        Log.d("Main", "Plus was pressed");
+
+        OperandsFragment operandsFragment = new OperandsFragment();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.phone_container, operandsFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    };
+
+    public void queryOperandValuesForSubtract(View view) {
+        Log.d("Main", "Minus was pressed");
+        //        Intent intent = new Intent(this, QueryOperandValuesActivity.class);
+        //        startActivityForResult(intent, QUERY_OPERANDS_REQUEST_FOR_SUBTRACT);
+    };
+
+    public void compute(View view) {
+        Log.d("Main", "Compute was pressed");
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        //transaction.
+    }
+
+    public void cancel(View view) {
+        Log.d("Main", "Cancel was pressed");
+    }
 }
