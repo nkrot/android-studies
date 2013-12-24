@@ -13,62 +13,63 @@
         android:layout_height="wrap_content"
         android:text="@string/input_operand_values" />
 
-   <LinearLayout
-   	    android:id="@+id/operands_layout"
+    <LinearLayout
+        android:id="@+id/operands_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:orientation="vertical" >
 
-    	<EditText
-        	android:id="@+id/query_operand_1"
-        	android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="0.5"
-        	android:ems="10"
-        	android:hint="@string/the_1st_operand"
-        	android:enabled="true"
-        	android:inputType="number" >
+        <EditText
+            android:id="@+id/query_operand_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="@string/the_1st_operand"
+            android:inputType="number" >
 
             <requestFocus />
         </EditText>
- 
+
         <EditText
             android:id="@+id/query_operand_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:ems="10"
-            android:hint="@string/the_2nd_operand"
             android:enabled="true"
+            android:hint="@string/the_2nd_operand"
             android:inputType="number" />
-   </LinearLayout>
- 
-   <LinearLayout
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/do_or_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/operands_layout"
         android:layout_marginTop="50dp"
         android:orientation="horizontal" >
-    	<!-- TODO: move layout_marginTop into dimen -->
- 
+
+        <!-- TODO: move layout_marginTop into dimen -->
+
         <Button
             android:id="@+id/btn_do"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/compute"
-            android:layout_weight="0.5" />
-            <!-- android:onClick="compute"/-->
-             
+            android:layout_weight="0.5"
+            android:text="@string/compute" />
+        <!-- android:onClick="compute" / -->
+
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/cancel" />
-            <!-- android:onClick="cancel"/ -->
-           
-     </LinearLayout>
-   
+        <!-- android:onClick="cancel" / -->
+
+    </LinearLayout>
+
 </RelativeLayout>
