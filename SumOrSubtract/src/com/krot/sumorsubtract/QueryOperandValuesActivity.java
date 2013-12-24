@@ -35,12 +35,12 @@ public class QueryOperandValuesActivity extends Activity {
     }
 
     public void compute(View view) {
-        TextView tv_op1 = (TextView) findViewById(R.id.query_operand_1);
-        TextView tv_op2 = (TextView) findViewById(R.id.query_operand_2);
+        TextView firstOperandView = (TextView) findViewById(R.id.query_operand_1);
+        TextView secondOperandView = (TextView) findViewById(R.id.query_operand_2);
 
         Intent resultData = new Intent();
-        resultData.putExtra(OPERAND1, tv_op1.getText().toString());
-        resultData.putExtra(OPERAND2, tv_op2.getText().toString());
+        resultData.putExtra(OPERAND1, firstOperandView.getText().toString());
+        resultData.putExtra(OPERAND2, secondOperandView.getText().toString());
 
         setResult(RESULT_OK, resultData);
         finish();
