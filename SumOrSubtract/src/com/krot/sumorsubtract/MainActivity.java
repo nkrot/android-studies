@@ -8,28 +8,74 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+/*
+ * TODO
+ * 1. try using android 2.2 in emulator to get onRestoreInstanceState() called
+ * 2. BUG: check that the number of operations is correctly displayed once onRestoreInstanceState finished
+ * 
+ * */
 
 public class MainActivity extends Activity {
     static final int QUERY_OPERANDS_REQUEST_FOR_SUM = 1;
     static final int QUERY_OPERANDS_REQUEST_FOR_SUBTRACT = 2;
     static final int INVALID_HISTORY_ITEM_DLG = 1;
+    static final String OPERATION_HISTORY = "operation_history";
 
     protected OperationHistory operationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("onCreate", "was called");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Log.d("onCreate was triggered", "zzz");
+        bindControlsToEvents();
 
         if (savedInstanceState == null) {
             operationHistory = new OperationHistory();
-        } else {
-            // TODO: restore history from saved object
-            Log.d("Restore from saved", "mmm. how?"); // TODO: never happens!
         }
+        // else-branch is unnecessary, onRestoreInstanceState() is called anyway
+    }
+
+    private void bindControlsToEvents() {
+
+        Button sumButton = (Button) findViewById(R.id.btn_add);
+        sumButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                queryOperandValuesForSum(v);
+            }
+        });
+
+        Button subtractButton = (Button) findViewById(R.id.btn_subtract);
+        subtractButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                queryOperandValuesForSubtract(v);
+            }
+        });
+
+        Button historyFindButton = (Button) findViewById(R.id.btn_history_find);
+        historyFindButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                findCurrentInHistory(v);
+            }
+        });
+
+        Button historyPreviousButton = (Button) findViewById(R.id.btn_history_previous);
+        historyPreviousButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                findPreviousInHistory(v);
+            }
+        });
+
+        Button historyNextButton = (Button) findViewById(R.id.btn_history_next);
+        historyNextButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                findNextInHistory(v);
+            }
+        });
     }
 
     public void queryOperandValuesForSum(View view) {
@@ -43,8 +89,8 @@ public class MainActivity extends Activity {
     };
 
     public void findCurrentInHistory(View view) {
-        TextView tvOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
-        String operationId = tvOperationId.getText().toString();
+        TextView operationIdView = (TextView) findViewById(R.id.ev_history_operation_id);
+        String operationId = operationIdView.getText().toString();
 
         if (operationId.length() == 0) {
             // TODO: what should we do if nothing was input? perhaps it makes
@@ -72,9 +118,9 @@ public class MainActivity extends Activity {
         if (requestCode == QUERY_OPERANDS_REQUEST_FOR_SUM
                 || requestCode == QUERY_OPERANDS_REQUEST_FOR_SUBTRACT) {
 
-            TextView tv_op1 = (TextView) findViewById(R.id.operand_1);
-            TextView tv_op2 = (TextView) findViewById(R.id.operand_2);
-            TextView tv_res = (TextView) findViewById(R.id.result);
+            TextView firstOperandView = (TextView) findViewById(R.id.operand_1);
+            TextView secondOperandView = (TextView) findViewById(R.id.operand_2);
+            TextView operationResultView = (TextView) findViewById(R.id.result);
 
             if (resultCode == RESULT_OK) {
 
@@ -91,15 +137,15 @@ public class MainActivity extends Activity {
                     addToHistory(OperationHistory.SUBTRACTION, res);
                 }
 
-                tv_op1.setText(op1);
-                tv_op2.setText(op2);
-                tv_res.setText(String.valueOf(res));
+                firstOperandView.setText(op1);
+                secondOperandView.setText(op2);
+                operationResultView.setText(String.valueOf(res));
 
             } else if (resultCode == RESULT_CANCELED) {
                 // reset all text view to defaults
-                tv_op1.setText(R.string.the_1st_operand);
-                tv_op2.setText(R.string.the_2nd_operand);
-                tv_res.setText(R.string.operation_canceled);
+                firstOperandView.setText(R.string.the_1st_operand);
+                secondOperandView.setText(R.string.the_2nd_operand);
+                operationResultView.setText(R.string.operation_canceled);
             }
         }
     };
@@ -110,25 +156,25 @@ public class MainActivity extends Activity {
             showDialog(INVALID_HISTORY_ITEM_DLG);
 
             // clear invalid user query
-            TextView viewOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
-            viewOperationId.setText("");
+            TextView operationIdView = (TextView) findViewById(R.id.ev_history_operation_id);
+            operationIdView.setText("");
         }
 
         if (operationHistory.hadValidQueries()) {
-            TextView viewOperationId = (TextView) findViewById(R.id.ev_history_operation_id);
-            TextView viewOperationName = (TextView) findViewById(R.id.tv_history_operation_name);
-            TextView viewOperationResult = (TextView) findViewById(R.id.tv_history_result_value);
+            TextView operationIdView = (TextView) findViewById(R.id.ev_history_operation_id);
+            TextView operationNameView = (TextView) findViewById(R.id.tv_history_operation_name);
+            TextView operationResultView = (TextView) findViewById(R.id.tv_history_result_value);
 
-            viewOperationId.setText(String.valueOf(operationHistory.getHistoryItemId()));
-            viewOperationName.setText(operationHistory.getOperation());
-            viewOperationResult.setText(String.valueOf(operationHistory.getResult()));
+            operationIdView.setText(String.valueOf(operationHistory.getHistoryItemId()));
+            operationNameView.setText(operationHistory.getOperation());
+            operationResultView.setText(String.valueOf(operationHistory.getResult()));
         }
     }
 
     protected void addToHistory(String opName, int opResult) {
         operationHistory.addItem(opName, opResult);
-        TextView viewHistorySize = (TextView) findViewById(R.id.history_size_value);
-        viewHistorySize.setText(String.valueOf(operationHistory.size()));
+        TextView historySizeView = (TextView) findViewById(R.id.history_size_value);
+        historySizeView.setText(String.valueOf(operationHistory.size()));
     }
 
     @Override
@@ -147,7 +193,8 @@ public class MainActivity extends Activity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // TODO: what to write here?
+                                    // an empty body is valid as well
+                                    //dialog.dismiss();
                                 }
                             });
 
@@ -162,7 +209,7 @@ public class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d("onSaveInstanceState", " was called");
-        outState.putParcelable("operationHistory", operationHistory);
+        outState.putParcelable(OPERATION_HISTORY, operationHistory);
     }
 
     // TODO: this event is never triggered
@@ -170,16 +217,6 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.d("onRestoreInstanceState", " was called");
-        operationHistory = savedInstanceState.getParcelable("operationHistory");
+        operationHistory = savedInstanceState.getParcelable(OPERATION_HISTORY);
     }
-
-    /*
-     // TODO: this is even is triggered but have no idea of how to get Bundle in there. 
-     //       and this seems to be a wrong approach
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("onResume", " was called");
-        operationHistory = getIntent().getParcelableExtra("operationHistory"); // CRASH
-    }*/
 }

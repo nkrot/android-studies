@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class QueryOperandValuesActivity extends Activity {
@@ -14,6 +15,23 @@ public class QueryOperandValuesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query_operand_values);
+        bindControlsToEvents();
+    }
+
+    private void bindControlsToEvents() {
+        Button computeButton = (Button) findViewById(R.id.btn_do);
+        computeButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                compute(v);
+            }
+        });
+
+        Button cancelButton = (Button) findViewById(R.id.btn_cancel);
+        cancelButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                cancel(v);
+            }
+        });
     }
 
     public void compute(View view) {

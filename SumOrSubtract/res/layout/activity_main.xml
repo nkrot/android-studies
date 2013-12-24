@@ -28,16 +28,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add"
-            android:layout_weight="0.5"
-            android:onClick="queryOperandValuesForSum" />
+            android:layout_weight="0.5" />
+            <!-- android:onClick="queryOperandValuesForSum" /-->
  
         <Button
             android:id="@+id/btn_subtract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/subtract"
-            android:onClick="queryOperandValuesForSubtract"  />
+            android:text="@string/subtract" />
+            <!-- android:onClick="queryOperandValuesForSubtract"  /-->
      </LinearLayout>
 
    	<LinearLayout
@@ -127,24 +127,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.20"
-            android:text="@string/find_in_history"
-            android:onClick="findCurrentInHistory" />
+            android:text="@string/find_in_history" />
+            <!-- android:onClick="findCurrentInHistory" /-->
    	            	    
         <Button
             android:id="@+id/btn_history_previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.20"
-            android:text="@string/previous_in_history"
-            android:onClick="findPreviousInHistory" />
+            android:text="@string/previous_in_history" />
+            <!-- android:onClick="findPreviousInHistory" /-->
  
         <Button
             android:id="@+id/btn_history_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.20"
-            android:text="@string/next_in_history"
-            android:onClick="findNextInHistory" />
+            android:text="@string/next_in_history" />
+            <!-- android:onClick="findNextInHistory" /-->
         
      </LinearLayout>
 
