@@ -13,7 +13,7 @@ public class OperandsFragment extends Fragment {
     private OnComputeOrCancelPressedListener listener;
 
     public interface OnComputeOrCancelPressedListener {
-        public void computeWithOperands(int op1, int op2);
+        public void onComputeWithOperands(int op1, int op2);
         // TODO: public void operandsCanceled();
     }
 
@@ -52,7 +52,7 @@ public class OperandsFragment extends Fragment {
     }
 
     public void updateOperands() {
-        listener.computeWithOperands(getFirstOperand(), getSecondOperand());
+        listener.onComputeWithOperands(getFirstOperand(), getSecondOperand());
     }
 
     private int getFirstOperand() {

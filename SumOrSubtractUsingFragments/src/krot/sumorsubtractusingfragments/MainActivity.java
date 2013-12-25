@@ -45,7 +45,7 @@ public class MainActivity extends Activity
         showOperandsFragment();
     };
 
-    public void computeWithOperands(int op1, int op2) {
+    public void onComputeWithOperands(int op1, int op2) {
         Log.d("computeWithOperands()", "received op1=" + String.valueOf(op1) + " and op2 = " + String.valueOf(op2));
 
         int res = 0;
@@ -62,13 +62,15 @@ public class MainActivity extends Activity
         Log.d("Result", String.valueOf(res));
 
         operationsFragment = new OperationsFragment();
-        operationsFragment.updateWithComputed(op1, op2, res);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.phone_container, operationsFragment);
+
         transaction.addToBackStack(null);
 
         transaction.commit();
+        operationsFragment.updateWithComputed(op1, op2, res); // sucks!
+
     }
 
     public void cancel(View view) {
