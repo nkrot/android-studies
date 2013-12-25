@@ -14,7 +14,8 @@ public class OperandsFragment extends Fragment {
 
     public interface OnComputeOrCancelPressedListener {
         public void onComputeWithOperands(int op1, int op2);
-        // TODO: public void operandsCanceled();
+
+        public void onCancelOperands();
     }
 
     @Override
@@ -28,6 +29,14 @@ public class OperandsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updateOperands();
+            }
+        });
+
+        Button cancelButton = (Button) view.findViewById(R.id.btn_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelOperands();
             }
         });
 
@@ -53,6 +62,10 @@ public class OperandsFragment extends Fragment {
 
     public void updateOperands() {
         listener.onComputeWithOperands(getFirstOperand(), getSecondOperand());
+    }
+
+    public void cancelOperands() {
+        listener.onCancelOperands();
     }
 
     private int getFirstOperand() {

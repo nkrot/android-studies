@@ -4,7 +4,6 @@ import krot.sumorsubtractusingfragments.OperandsFragment.OnComputeOrCancelPresse
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends Activity
@@ -33,49 +32,41 @@ public class MainActivity extends Activity
         }
     }
 
+    // TODO:move this inside OperationsFragment
     public void queryOperandValuesForSum(View view) {
-        Log.d("Main", "Plus was pressed");
-        currentOperator = SUM;
+        // Log.d("Main", "Plus was pressed");
+        currentOperator = OperationsFragment.SUM;
         showOperandsFragment();
     };
 
+    // TODO: move this inside OperationsFragment
     public void queryOperandValuesForSubtract(View view) {
-        Log.d("Main", "Minus was pressed");
-        currentOperator = SUBTRACT;
+        // Log.d("Main", "Minus was pressed");
+        currentOperator = OperationsFragment.SUBTRACT;
         showOperandsFragment();
     };
 
     public void onComputeWithOperands(int op1, int op2) {
-        Log.d("computeWithOperands()", "received op1=" + String.valueOf(op1) + " and op2 = " + String.valueOf(op2));
-
-        int res = 0;
-        switch (currentOperator) {
-        case SUM:
-            res = op1 + op2;
-            //TODO: addToHistory(OperationHistory.ADDITION, res);
-
-        case SUBTRACT:
-            res = op1 - op2;
-            //TODO: addToHistory(OperationHistory.SUBTRACTION, res);
-        }
-
-        Log.d("Result", String.valueOf(res));
+        //Log.d("computeWithOperands()", "received op1=" + String.valueOf(op1) + " and op2 = " + String.valueOf(op2));
 
         operationsFragment = new OperationsFragment();
-        operationsFragment.updateWithComputed(op1, op2, res);
+        Bundle args = new Bundle();
+        args.putInt(OperationsFragment.OPERAND1, op1);
+        args.putInt(OperationsFragment.OPERAND2, op2);
+        args.putInt(OperationsFragment.OPERATION, currentOperator);
+        operationsFragment.setArguments(args);
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.phone_container, operationsFragment);
-
-        transaction.addToBackStack(null);
-
-        transaction.commit();
-        Log.d("computeWithOperands()", " transaction was committed");
+        showOperationsFragment();
     }
 
-    public void cancel(View view) {
-        Log.d("Main", "Cancel was pressed");
-        // operationsFragment.updateWithCanceled();
+    public void onCancelOperands() {
+        operationsFragment = new OperationsFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean(OperationsFragment.CANCELED, true);
+        operationsFragment.setArguments(args);
+
+        showOperationsFragment();
     }
 
     public void showOperandsFragment() {
@@ -84,17 +75,14 @@ public class MainActivity extends Activity
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.phone_container, operandsFragment);
         transaction.addToBackStack(null);
-
         transaction.commit();
     }
 
     public void showOperationsFragment() {
-        operationsFragment = new OperationsFragment();
-
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.phone_container, operationsFragment);
         transaction.addToBackStack(null);
-
         transaction.commit();
+        // Log.d("computeWithOperands()", " transaction was committed");
     }
 }
