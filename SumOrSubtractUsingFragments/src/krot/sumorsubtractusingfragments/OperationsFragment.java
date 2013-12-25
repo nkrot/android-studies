@@ -1,12 +1,14 @@
 package krot.sumorsubtractusingfragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -19,17 +21,22 @@ public class OperationsFragment extends Fragment {
 
     static final int SUM = 1;
     static final int SUBTRACT = 2;
-    static final int RESULT_IS_NONE = 0;
-    static final int RESULT_IS_OK = 1;
-    static final int RESULT_IS_CANCELED = 2;
+    static final int RESULT_IS_NONE = 3;
+    static final int RESULT_IS_OK = 4;
+    static final int RESULT_IS_CANCELED = 5;
 
     public int operation;
     public int operand1;
     public int operand2;
     public int result;
 
-    private int resultCode = RESULT_IS_NONE;
     private View theView;
+    private int resultCode = RESULT_IS_NONE;
+    private OnSetOperationListener listener;
+
+    public interface OnSetOperationListener {
+        public void onSetOperation(int operation);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,49 @@ public class OperationsFragment extends Fragment {
         //Log.d("OperationsFragment", "onCreateView() was called");
 
         theView = inflater.inflate(R.layout.operations, container, false);
+        bindControls();
 
+        populateViews();
+
+        return theView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnSetOperationListener) {
+            listener = (OnSetOperationListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implemenet OperationsFragment.OnSetOperationListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    private void bindControls() {
+        Button sumButton = (Button) theView.findViewById(R.id.btn_add);
+        sumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSetOperation(SUM);
+            }
+        });
+
+        Button subtractButton = (Button) theView.findViewById(R.id.btn_subtract);
+        subtractButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSetOperation(SUBTRACT);
+            }
+        });
+    }
+
+    private void populateViews() {
         switch (resultCode) {
         case RESULT_IS_OK:
             updateView(R.id.operand_1, operand1);
@@ -72,8 +121,6 @@ public class OperationsFragment extends Fragment {
             updateView(R.id.result, getResources().getString(R.string.operation_canceled)); // TODO: how to make it simpler?
             break;
         }
-
-        return theView;
     }
 
     private void updateView(int viewId, int val) {

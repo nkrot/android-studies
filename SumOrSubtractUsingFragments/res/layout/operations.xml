@@ -30,16 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add"
-            android:layout_weight="0.5"
-            android:onClick="queryOperandValuesForSum" />
+            android:layout_weight="0.5" />
+            <!-- android:onClick="queryOperandValuesForSum" / -->
  
         <Button
             android:id="@+id/btn_subtract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/subtract"
-            android:onClick="queryOperandValuesForSubtract"  />
+            android:text="@string/subtract" />
+            <!-- android:onClick="queryOperandValuesForSubtract"  /-->
      </LinearLayout>
 
    	<LinearLayout

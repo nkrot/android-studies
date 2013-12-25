@@ -1,19 +1,16 @@
 package krot.sumorsubtractusingfragments;
 
-import krot.sumorsubtractusingfragments.OperandsFragment.OnComputeOrCancelPressedListener;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
 
 public class MainActivity extends Activity
-        implements OnComputeOrCancelPressedListener {
-    static final int SUM = 1;
-    static final int SUBTRACT = 2;
+        implements OperandsFragment.OnComputeOrCancelPressedListener,
+        OperationsFragment.OnSetOperationListener {
 
     private OperationsFragment operationsFragment;
     private OperandsFragment operandsFragment;
-    private int currentOperator;
+    private int currentOperation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +29,10 @@ public class MainActivity extends Activity
         }
     }
 
-    // TODO:move this inside OperationsFragment
-    public void queryOperandValuesForSum(View view) {
-        // Log.d("Main", "Plus was pressed");
-        currentOperator = OperationsFragment.SUM;
+    public void onSetOperation(int operation) {
+        currentOperation = operation;
         showOperandsFragment();
-    };
-
-    // TODO: move this inside OperationsFragment
-    public void queryOperandValuesForSubtract(View view) {
-        // Log.d("Main", "Minus was pressed");
-        currentOperator = OperationsFragment.SUBTRACT;
-        showOperandsFragment();
-    };
+    }
 
     public void onComputeWithOperands(int op1, int op2) {
         //Log.d("computeWithOperands()", "received op1=" + String.valueOf(op1) + " and op2 = " + String.valueOf(op2));
@@ -53,7 +41,7 @@ public class MainActivity extends Activity
         Bundle args = new Bundle();
         args.putInt(OperationsFragment.OPERAND1, op1);
         args.putInt(OperationsFragment.OPERAND2, op2);
-        args.putInt(OperationsFragment.OPERATION, currentOperator);
+        args.putInt(OperationsFragment.OPERATION, currentOperation);
         operationsFragment.setArguments(args);
 
         showOperationsFragment();
