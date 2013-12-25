@@ -62,6 +62,7 @@ public class MainActivity extends Activity
         Log.d("Result", String.valueOf(res));
 
         operationsFragment = new OperationsFragment();
+        operationsFragment.updateWithComputed(op1, op2, res);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.phone_container, operationsFragment);
@@ -69,12 +70,12 @@ public class MainActivity extends Activity
         transaction.addToBackStack(null);
 
         transaction.commit();
-        operationsFragment.updateWithComputed(op1, op2, res); // sucks!
-
+        Log.d("computeWithOperands()", " transaction was committed");
     }
 
     public void cancel(View view) {
         Log.d("Main", "Cancel was pressed");
+        // operationsFragment.updateWithCanceled();
     }
 
     public void showOperandsFragment() {

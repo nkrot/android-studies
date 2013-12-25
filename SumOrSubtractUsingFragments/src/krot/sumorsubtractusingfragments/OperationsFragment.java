@@ -1,5 +1,6 @@
 package krot.sumorsubtractusingfragments;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class OperationsFragment extends Fragment {
+    public int operand1;
+    public int operand2;
+    public int result;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -17,10 +23,20 @@ public class OperationsFragment extends Fragment {
         return inflater.inflate(R.layout.operations, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d("OperationsFragment", " onViewCreated was called");
+
+        updateView(R.id.operand_1, operand1);
+        updateView(R.id.operand_2, operand2);
+        updateView(R.id.result, result);
+    }
+
     public void updateWithComputed(int op1, int op2, int res) {
-        updateView(R.id.operand_1, op1);
-        updateView(R.id.operand_2, op2);
-        updateView(R.id.result, res);
+        operand1 = op1;
+        operand2 = op2;
+        result = res;
     }
 
     public void updateWithCanceled() {
