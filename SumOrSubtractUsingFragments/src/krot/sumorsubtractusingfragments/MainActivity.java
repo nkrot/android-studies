@@ -1,12 +1,20 @@
 package krot.sumorsubtractusingfragments;
 
+import krot.sumorsubtractusingfragments.OperandsFragment.OnComputeOrCancelPressedListener;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+        implements OnComputeOrCancelPressedListener {
+    static final int SUM = 1;
+    static final int SUBTRACT = 2;
+
+    private OperationsFragment operationsFragment;
+    private OperandsFragment operandsFragment;
+    private int currentOperator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,44 +26,72 @@ public class MainActivity extends Activity {
                 return;
             }
 
-            OperationsFragment mainFragment = new OperationsFragment();
-            getFragmentManager().beginTransaction().add(R.id.phone_container, mainFragment).commit();
+            operationsFragment = new OperationsFragment();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.phone_container, operationsFragment)
+                    .commit();
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
     public void queryOperandValuesForSum(View view) {
         Log.d("Main", "Plus was pressed");
+        currentOperator = SUM;
+        showOperandsFragment();
+    };
 
-        OperandsFragment operandsFragment = new OperandsFragment();
+    public void queryOperandValuesForSubtract(View view) {
+        Log.d("Main", "Minus was pressed");
+        currentOperator = SUBTRACT;
+        showOperandsFragment();
+    };
+
+    public void computeWithOperands(int op1, int op2) {
+        Log.d("computeWithOperands()", "received op1=" + String.valueOf(op1) + " and op2 = " + String.valueOf(op2));
+
+        int res = 0;
+        switch (currentOperator) {
+        case SUM:
+            res = op1 + op2;
+            //TODO: addToHistory(OperationHistory.ADDITION, res);
+
+        case SUBTRACT:
+            res = op1 - op2;
+            //TODO: addToHistory(OperationHistory.SUBTRACTION, res);
+        }
+
+        Log.d("Result", String.valueOf(res));
+
+        operationsFragment = new OperationsFragment();
+        operationsFragment.updateWithComputed(op1, op2, res);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.phone_container, operationsFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    }
+
+    public void cancel(View view) {
+        Log.d("Main", "Cancel was pressed");
+    }
+
+    public void showOperandsFragment() {
+        operandsFragment = new OperandsFragment();
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.phone_container, operandsFragment);
         transaction.addToBackStack(null);
 
         transaction.commit();
-    };
-
-    public void queryOperandValuesForSubtract(View view) {
-        Log.d("Main", "Minus was pressed");
-        //        Intent intent = new Intent(this, QueryOperandValuesActivity.class);
-        //        startActivityForResult(intent, QUERY_OPERANDS_REQUEST_FOR_SUBTRACT);
-    };
-
-    public void compute(View view) {
-        Log.d("Main", "Compute was pressed");
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        //transaction.
     }
 
-    public void cancel(View view) {
-        Log.d("Main", "Cancel was pressed");
+    public void showOperationsFragment() {
+        operationsFragment = new OperationsFragment();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.phone_container, operationsFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }
