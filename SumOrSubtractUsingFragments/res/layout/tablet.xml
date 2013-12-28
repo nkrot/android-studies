@@ -1,22 +1,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tablet_container"
+    android:id="@+id/main_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
     android:baselineAligned="false"
-    tools:context=".MainActivity"  >
-    
-	<fragment android:id="@+id/operations_fragment"
-              android:name="krot.sumorsubtractusingfragments.OperationsFragment"
-              android:layout_height="fill_parent"
-              android:layout_width="0dp"
-              android:layout_weight="1"/>
-    
-    <fragment android:id="@+id/operands_fragment"
-              android:name="krot.sumorsubtractusingfragments.OperandsFragment"
-              android:layout_height="fill_parent"
-              android:layout_width="0dp"
-              android:layout_weight="1" />
-  
+    android:orientation="horizontal"
+    tools:context=".MainActivity" >
+
+    <!--
+         fragment
+        android:id="@+id/operations_fragment"
+        android:name="krot.sumorsubtractusingfragments.OperationsFragment"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" /
+    -->
+
+    <FrameLayout
+        android:id="@+id/operations_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
+
+    <!--
+         fragment
+        android:id="@+id/operands_fragment"
+        android:name="krot.sumorsubtractusingfragments.OperandsFragment"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" /
+    -->
+
+    <FrameLayout
+        android:id="@+id/operands_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
+
 </LinearLayout>
