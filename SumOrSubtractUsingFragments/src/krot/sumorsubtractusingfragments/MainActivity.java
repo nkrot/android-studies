@@ -1,6 +1,7 @@
 package krot.sumorsubtractusingfragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
@@ -29,7 +30,7 @@ public class MainActivity extends Activity
     public void onSetOperation(int operation) {
         currentOperation = operation;
         operandsFragment = new OperandsFragment();
-        showOperandsFragment();
+        showFragment(operandsContainer, operandsFragment);
     }
 
     public void onComputeWithOperands(int op1, int op2) {
@@ -46,7 +47,7 @@ public class MainActivity extends Activity
         args.putInt(OperationsFragment.OPERATION, currentOperation);
         operationsFragment.setArguments(args);
 
-        showOperationsFragment();
+        showFragment(operationsContainer, operationsFragment);
     }
 
     public void onCancelOperands() {
@@ -56,19 +57,12 @@ public class MainActivity extends Activity
         args.putBoolean(OperationsFragment.CANCELED, true);
         operationsFragment.setArguments(args);
 
-        showOperationsFragment();
+        showFragment(operationsContainer, operationsFragment);
     }
 
-    public void showOperandsFragment() {
+    public void showFragment(int containerId, Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(operandsContainer, operandsFragment); // using .add here leads to two fragments being shown at once!
-        // transaction.addToBackStack(null); // TODO: not necessary as I'm never using popBackStack()
-        transaction.commit();
-    }
-
-    public void showOperationsFragment() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(operationsContainer, operationsFragment);
+        transaction.replace(containerId, fragment);
         // transaction.addToBackStack(null); // TODO: not necessary as I'm never using popBackStack()
         transaction.commit();
     }
@@ -98,4 +92,14 @@ public class MainActivity extends Activity
                 .add(operationsContainer, operationsFragment)
                 .commit();
     }
+
+    /*
+    public void showOperandsFragment() {
+        showFragment(operandsContainer, operandsFragment);
+    }
+
+    public void showOperationsFragment() {
+        showFragment(operationsContainer, operationsFragment);
+    }
+    */
 }
