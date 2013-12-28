@@ -7,29 +7,13 @@
     android:orientation="horizontal"
     tools:context=".MainActivity" >
 
-    <!--
-         fragment
-        android:id="@+id/operations_fragment"
-        android:name="krot.sumorsubtractusingfragments.OperationsFragment"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" /
-    -->
-
+    <!--  do not place fragments here, because they will be unchangeable -->
+    
     <FrameLayout
         android:id="@+id/operations_container"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1" />
-
-    <!--
-         fragment
-        android:id="@+id/operands_fragment"
-        android:name="krot.sumorsubtractusingfragments.OperandsFragment"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" /
-    -->
 
     <FrameLayout
         android:id="@+id/operands_container"
