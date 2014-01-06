@@ -10,7 +10,9 @@ TODO
 3. ? show the complete News text (description) in a separate activity. In this case the main list may contain the Image, the Date and the Title only
 4. ? perform RSS downloading and parsing in background (using AsyncTask)
 
-RSS format: http://www.realcoding.net/article/view/1883
+Useful links
+============
 
-Example code: http://code.google.com/p/android-imagedownloader/
+1. RSS format: http://www.realcoding.net/article/view/1883
+2. Example code: http://code.google.com/p/android-imagedownloader/
 
