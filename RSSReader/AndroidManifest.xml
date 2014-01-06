@@ -4,9 +4,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- fix minSdkVersion to 8 back once StrictMode is removed -->
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="18" />
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
