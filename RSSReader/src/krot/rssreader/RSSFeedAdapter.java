@@ -42,12 +42,17 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         RSSFeedEntry item = items.get(position);
         //Log.d("getView()", "item #" + String.valueOf(position) + " has title " + item.getTitle());
 
-        holder.icon.setImageResource(R.drawable.ic_launcher); // TODO: fake
+        downloadAndSetImage(holder.icon, item.getImageURL());
         holder.title.setText(item.getTitle());
         holder.date.setText(item.getDate());
         holder.description.setText(item.getDescription());
 
         return rowView;
+    }
+
+    private void downloadAndSetImage(ImageView view, String url) {
+        BitmapDownloaderTask task = new BitmapDownloaderTask(view);
+        task.execute(url);
     }
 
     // this method is a must! w/o it ArrayAdapter#getCount returns 0 and the list is not populated
