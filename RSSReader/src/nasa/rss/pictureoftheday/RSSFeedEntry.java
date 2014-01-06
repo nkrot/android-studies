@@ -69,8 +69,7 @@ public class RSSFeedEntry {
         return date.toString();
     }
 
-    // TODO: return image
-    public String getImage() {
+    public String getImageURL() {
         return imageLink;
     }
 }
