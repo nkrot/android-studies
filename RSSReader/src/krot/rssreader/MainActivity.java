@@ -40,7 +40,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
-        // TODO: download the feed and place it into data
         if (isNetworkAvailable()) {
             //Log.d("NETWORK", "is available");
             RSSFeedDownloader downloader = new RSSFeedDownloader();
