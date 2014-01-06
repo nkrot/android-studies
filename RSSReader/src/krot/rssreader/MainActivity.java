@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements OnClickListener {
         rssFeedList = (ListView) findViewById(R.id.rss_feed_list);
 
         // this will allow running the network operations on the main thread
-        // this is a temporary fix I use when developing StackOverflow::FeedDownloader
+        // this is a temporary fix I use when developing FeedDownloader
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         // TODO: download the feed and place it into data
         if (isNetworkAvailable()) {
-            Log.d("NETWORK", "is available");
+            //Log.d("NETWORK", "is available");
             RSSFeedDownloader downloader = new RSSFeedDownloader();
             downloader.download();
 
@@ -51,21 +51,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
             RSSFeedAdapter adapter = new RSSFeedAdapter(this, R.layout.rss_feed_list_item, feed);
             rssFeedList.setAdapter(adapter);
-            //adapter.notifyDataSetChanged(); // no effect
+
         } else {
             // TODO: alert that no network is available
             Log.d("NETWORK", "is DOWN");
         }
     }
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    */
 
     private boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

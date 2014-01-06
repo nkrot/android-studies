@@ -3,7 +3,6 @@ package krot.rssreader;
 import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedEntry;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         super(context, resource);
         this.inflater = LayoutInflater.from(context);
         this.items = items;
-        Log.d("RSSFeedAdapted", "created, contains " + String.valueOf(items.size()) + " items");
+        //Log.d("RSSFeedAdapted", "created, contains " + String.valueOf(items.size()) + " items");
     }
 
     @Override
@@ -41,7 +40,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         RSSFeedEntry item = items.get(position);
-        Log.d("getView()", "item #" + String.valueOf(position) + " has title " + item.getTitle());
+        //Log.d("getView()", "item #" + String.valueOf(position) + " has title " + item.getTitle());
 
         holder.icon.setImageResource(R.drawable.ic_launcher); // TODO: fake
         holder.title.setText(item.getTitle());
@@ -49,6 +48,13 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         holder.description.setText(item.getDescription());
 
         return rowView;
+    }
+
+    // this method is a must! w/o it ArrayAdapter#getCount returns 0 and the list is not populated
+    // TODO: need to understand why this happens
+    @Override
+    public int getCount() {
+        return items.size();
     }
 
     static class ViewHolder {

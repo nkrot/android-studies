@@ -20,7 +20,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="0.15"
         android:ellipsize="marquee"
-        android:singleLine="true"
         android:text="@string/title" />
 
     <TextView
@@ -29,7 +28,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="0.15"
         android:ellipsize="marquee"
-        android:singleLine="true"
         android:text="@string/date" />
 
     <TextView
@@ -38,7 +36,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="0.55"
         android:ellipsize="marquee"
-        android:singleLine="true"
         android:text="@string/description" />
     
 </LinearLayout>
