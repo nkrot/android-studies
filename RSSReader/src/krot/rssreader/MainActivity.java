@@ -1,13 +1,10 @@
 package krot.rssreader;
 
-import nasa.rss.pictureoftheday.RSSFeed;
-import nasa.rss.pictureoftheday.RSSFeedDownloader;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +18,7 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    public ListView rssFeedList;
+    public ListView rssFeedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +27,21 @@ public class MainActivity extends Activity implements OnClickListener {
 
         findViewById(R.id.btn_refresh_feed).setOnClickListener(this);
 
-        rssFeedList = (ListView) findViewById(R.id.rss_feed_list);
+        rssFeedView = (ListView) findViewById(R.id.rss_feed_list);
 
         // this will allow running the network operations on the main thread
         // this is a temporary fix I use when developing FeedDownloader
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
     }
 
     @Override
     public void onClick(View view) {
         if (isNetworkAvailable()) {
             //Log.d("NETWORK", "is available");
-            RSSFeedDownloader downloader = new RSSFeedDownloader();
-            downloader.download();
 
-            RSSFeed feed = downloader.getResult();
-            Log.d("FEED", " contains " + feed.size() + " items");
-
-            RSSFeedAdapter adapter = new RSSFeedAdapter(this, R.layout.rss_feed_list_item, feed);
-            rssFeedList.setAdapter(adapter);
+            RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView);
+            task.execute();
 
         } else {
             // TODO: alert that no network is available
