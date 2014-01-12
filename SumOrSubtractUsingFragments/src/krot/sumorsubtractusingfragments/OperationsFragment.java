@@ -80,7 +80,7 @@ public class OperationsFragment extends Fragment {
             listener = (OnSetOperationListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implemenet OperationsFragment.OnSetOperationListener");
+                    + " must implement OperationsFragment.OnSetOperationListener");
         }
     }
 

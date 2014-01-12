@@ -50,7 +50,7 @@ public class OperandsFragment extends Fragment {
             listener = (OnComputeOrCancelPressedListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implemenet OperandsFragment.OnComputeOrCancelPressedListener");
+                    + " must implement OperandsFragment.OnComputeOrCancelPressedListener");
         }
     }
 
