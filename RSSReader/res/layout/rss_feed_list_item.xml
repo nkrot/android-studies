@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="50dp"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:id="@+id/rss_feed_list_item" >
 
     <ImageView
         android:id="@+id/icon"

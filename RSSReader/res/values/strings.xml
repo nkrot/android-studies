@@ -3,12 +3,12 @@
 
     <string name="app_name">RSS Reader</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="refresh_feed">Давай поновее</string>
+    <string name="refresh_feed">Обновить</string>
     <string name="todo">TODO</string>
-	<string name="title">Название</string>
-	<string name="date">Дата</string>
-	<string name="description">Описание</string>
-	<string name="downloading">Скачивается</string>
-	
+    <string name="title">Название</string>
+    <string name="date">Дата</string>
+    <string name="description">Описание</string>
+    <string name="downloading">Скачивается</string>
+    <string name="title_activity_show_news_item">Новость из RSS</string>
+	<string name="you_are_reading_rss">Вы читаете RSS</string>
 </resources>

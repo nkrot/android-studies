@@ -52,7 +52,7 @@ public class RSSFeedParser {
                 } else if (isElement("pubDate")) {
                     entry.acceptDate();
                 } else if (isElement("enclosure")) {
-                    entry.setImageLink(xmlParser.getAttributeValue(null, "url"));
+                    entry.setImageURL(xmlParser.getAttributeValue(null, "url"));
                 }
 
             } else if (eventType == XmlPullParser.END_TAG) {
