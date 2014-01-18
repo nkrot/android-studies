@@ -1,11 +1,12 @@
 package krot.rssreader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -38,14 +39,11 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         if (isNetworkAvailable()) {
-            //Log.d("NETWORK", "is available");
-
             RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView);
             task.execute();
 
         } else {
-            // TODO: alert that no network is available
-            Log.d("NETWORK", "is DOWN");
+            showNetworkIsDownAlert();
         }
     }
 
@@ -53,5 +51,22 @@ public class MainActivity extends Activity implements OnClickListener {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void showNetworkIsDownAlert() {
+        //Log.d("NETWORK", "is DOWN");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.network_not_available)
+                .setCancelable(true) /* true allows Back button; false disables Back button */
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
