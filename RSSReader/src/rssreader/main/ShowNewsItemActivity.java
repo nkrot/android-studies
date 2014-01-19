@@ -1,5 +1,6 @@
-package krot.rssreader;
+package rssreader.main;
 
+import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeedEntry;
 import android.app.Activity;
 import android.content.Intent;

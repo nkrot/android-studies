@@ -1,5 +1,6 @@
-package krot.rssreader;
+package rssreader.main;
 
+import krot.rssreader.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

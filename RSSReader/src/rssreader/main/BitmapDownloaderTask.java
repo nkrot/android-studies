@@ -1,4 +1,4 @@
-package krot.rssreader;
+package rssreader.main;
 
 import java.io.IOException;
 import java.io.InputStream;

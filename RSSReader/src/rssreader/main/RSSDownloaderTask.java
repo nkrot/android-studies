@@ -1,7 +1,9 @@
-package krot.rssreader;
+package rssreader.main;
 
+import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedDownloader;
+import rssreader.cache.RSSCache;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -23,7 +25,19 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     @Override
     public RSSFeed doInBackground(String... args) {
         //publishProgress(true); // with ProgressBar
-        return downloadRSSFeed();
+
+        RSSFeed rssFeed;
+        RSSCache cache = new RSSCache(targetView.getContext());
+
+        if (cache.isUpToDate()) {
+            rssFeed = cache.getRSSFeed();
+        } else {
+            rssFeed = downloadRSSFeed();
+            cache.saveToCache(rssFeed);
+        }
+        cache.close();
+
+        return rssFeed;
     }
 
     @Override
