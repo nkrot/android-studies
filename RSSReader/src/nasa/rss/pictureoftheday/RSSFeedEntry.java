@@ -60,24 +60,36 @@ public class RSSFeedEntry implements Parcelable {
         fieldToAccept = 0;
     }
 
-    public void setImageURL(String url) {
-        imageLink = url;
-    }
-
-    public String getImageURL() {
-        return imageLink;
+    public void setTitle(String str) {
+        title.append(str);
     }
 
     public String getTitle() {
         return title.toString();
     }
 
+    public void setDescription(String str) {
+        description.append(str);
+    }
+
     public String getDescription() {
         return description.toString();
     }
 
+    public void setDate(String str) {
+        date.append(str);
+    }
+
     public String getDate() {
         return date.toString();
+    }
+
+    public void setImageURL(String url) {
+        imageLink = url;
+    }
+
+    public String getImageURL() {
+        return imageLink;
     }
 
     /*
