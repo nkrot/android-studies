@@ -8,7 +8,8 @@
     <string name="title">Название</string>
     <string name="date">Дата</string>
     <string name="description">Описание</string>
-    <string name="downloading">Скачивается</string>
+    <string name="downloading_anew">Скачивается обновление</string>
+    <string name="loading_cached_data">Загружаются данные из кэша</string>
     <string name="title_activity_show_news_item">Новость из RSS</string>
 	<string name="you_are_reading_rss">Вы читаете RSS</string>
 	<string name="network_not_available">Извини, дорогой, но сеть недоступна</string>

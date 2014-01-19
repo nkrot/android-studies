@@ -43,9 +43,19 @@ public class MainActivity extends Activity implements OnClickListener {
             RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView);
             task.execute();
 
+        } else if (isCacheAvailable()) {
+            // TODO next: if network is not available but there is data in DB, ask the user 
+            // if he wants to view cached data. IF yes, get data from cache and display it.
+            //RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView, useCache=true);
+            //task.execute();
+
         } else {
             showNetworkIsDownAlert();
         }
+    }
+
+    private boolean isCacheAvailable() {
+        return false; // TODO
     }
 
     private boolean isNetworkAvailable() {

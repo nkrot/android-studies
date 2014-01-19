@@ -7,6 +7,7 @@ public class RSSFeedEntry implements Parcelable {
     static final int TITLE = 1;
     static final int DESCRIPTION = 2;
     static final int DATE = 3;
+    static final String DATE_FORMAT = "E, d MMM yyyy hh:mm:ss z"; // as seen in RSS feed
 
     private int fieldToAccept;
 
@@ -83,6 +84,23 @@ public class RSSFeedEntry implements Parcelable {
     public String getDate() {
         return date.toString();
     }
+
+    // TODO: hmmm. is this correct time conversion? Why USA time is greater than European time?
+    // Fri, 17 Jan 2014 12:00:00 EDT --> Fri, 17 Jan 2014 04:00:00 UTC
+    /*
+    public String getDateUTC() {
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        Date d = null;
+        try {
+            d = df.parse(getDate());
+        } catch (ParseException e) {
+            // TODO: react to the exception somehow
+            e.printStackTrace();
+        }
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return df.format(d);
+    }
+    */
 
     public void setImageURL(String url) {
         imageLink = url;

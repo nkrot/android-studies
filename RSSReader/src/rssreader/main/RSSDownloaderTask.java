@@ -14,12 +14,15 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     private final Activity targetActivity;
     private final ListView targetView;
     private ProgressDialog progressDialog;
+    private RSSCache rssCache;
+    private Boolean cacheIsUpToDate;
 
     public RSSDownloaderTask(Activity activity, ListView view) {
         // TODO: perhaps using WeakReference would be preferable?
         targetActivity = activity;
         targetView = view;
         progressDialog = null;
+        cacheIsUpToDate = false;
     }
 
     @Override
@@ -27,15 +30,13 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
         //publishProgress(true); // with ProgressBar
 
         RSSFeed rssFeed;
-        RSSCache cache = new RSSCache(targetView.getContext());
 
-        if (cache.isUpToDate()) {
-            rssFeed = cache.getRSSFeed();
+        if (cacheIsUpToDate) {
+            rssFeed = rssCache.getRSSFeed();
         } else {
             rssFeed = downloadRSSFeed();
-            cache.saveToCache(rssFeed);
+            rssCache.saveToCache(rssFeed);
         }
-        cache.close();
 
         return rssFeed;
     }
@@ -43,14 +44,20 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        rssCache = new RSSCache(targetView.getContext());
+        cacheIsUpToDate = rssCache.isUpToDate();
+
+        int msg = cacheIsUpToDate ? R.string.loading_cached_data : R.string.downloading_anew;
         progressDialog = ProgressDialog.show(targetView.getContext(), null,
-                targetView.getResources().getString(R.string.downloading));
+                targetView.getResources().getString(msg));
     }
 
     @Override
     protected void onPostExecute(RSSFeed feed) {
         //publishProgress(false); // with ProgressBar
         progressDialog.dismiss(); // with ProgressDialog
+        rssCache.close();
 
         if (isCancelled()) {
             feed = null;
