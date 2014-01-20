@@ -43,11 +43,12 @@ public class MainActivity extends Activity implements OnClickListener {
             RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView);
             task.execute();
 
-        } else if (isCacheAvailable()) {
+        } else if (isCacheAvailable() /*TODO*/) {
             // TODO next: if network is not available but there is data in DB, ask the user 
             // if he wants to view cached data. IF yes, get data from cache and display it.
             //RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView, useCache=true);
             //task.execute();
+            showOfferCachedVersionAlert();
 
         } else {
             showNetworkIsDownAlert();
@@ -70,7 +71,30 @@ public class MainActivity extends Activity implements OnClickListener {
 
         builder.setMessage(R.string.network_not_available)
                 .setCancelable(true) /* true allows Back button; false disables Back button */
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.gotyou, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showOfferCachedVersionAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.network_not_available_but_can_show_cached_version)
+                .setCancelable(true) /* true allows Back button; false disables Back button */
+                .setPositiveButton(R.string.ok2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        // TODO: load and show cached data
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
