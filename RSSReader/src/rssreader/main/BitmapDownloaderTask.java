@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import rssreader.cache.RSSCache;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -25,7 +26,19 @@ public class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... args) {
-        return downloadBitmap(args[0]);
+        String url = args[0];
+
+        RSSCache rssCache = new RSSCache(targetImageView.getContext());
+
+        Bitmap bitmap = rssCache.getBitmap(url);
+        if (bitmap == null) {
+            bitmap = downloadBitmap(url);
+            rssCache.saveToCache(bitmap, url);
+        }
+
+        rssCache.close();
+
+        return bitmap;
     }
 
     @Override

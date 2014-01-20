@@ -28,16 +28,13 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     @Override
     public RSSFeed doInBackground(String... args) {
         //publishProgress(true); // with ProgressBar
-
         RSSFeed rssFeed;
-
         if (cacheIsUpToDate) {
             rssFeed = rssCache.getRSSFeed();
         } else {
             rssFeed = downloadRSSFeed();
             rssCache.saveToCache(rssFeed);
         }
-
         return rssFeed;
     }
 
