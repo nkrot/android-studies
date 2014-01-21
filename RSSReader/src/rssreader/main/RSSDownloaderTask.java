@@ -14,6 +14,7 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     private final Activity targetActivity;
     private final ListView targetView;
     private ProgressDialog progressDialog;
+
     private RSSCache rssCache;
     private Boolean cacheIsUpToDate;
 
