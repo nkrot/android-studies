@@ -1,15 +1,18 @@
 package rssreader.main;
 
 import krot.rssreader.R;
+import nasa.rss.pictureoftheday.RSSFeedEntry;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 /*
@@ -30,6 +33,14 @@ public class MainActivity extends Activity implements OnClickListener {
         findViewById(R.id.btn_refresh_feed).setOnClickListener(this);
 
         rssFeedView = (ListView) findViewById(R.id.rss_feed_list);
+        rssFeedView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(parent.getContext(), ShowNewsItemActivity.class);
+                intent.putExtra(RSSFeedEntry.CLASSNAME, (RSSFeedEntry) parent.getAdapter().getItem(position));
+                startActivity(intent);
+            }
+        });
 
         // this will allow running the network operations on the main thread
         // this is a temporary fix I use when developing FeedDownloader

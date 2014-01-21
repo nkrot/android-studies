@@ -4,7 +4,6 @@ import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedEntry;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +32,6 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         View rowView = convertView;
         if (rowView == null) {
             rowView = inflater.inflate(R.layout.rss_feed_list_item, parent, false);
-
-            rowView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showNewsItem(v);
-                }
-            });
 
             ViewHolder holder = new ViewHolder();
             holder.icon = (ImageView) rowView.findViewById(R.id.icon);
@@ -75,6 +67,11 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         return items.size();
     }
 
+    @Override
+    public RSSFeedEntry getItem(int position) {
+        return items.get(position);
+    }
+
     static class ViewHolder {
         ImageView icon;
         TextView title;
@@ -82,16 +79,5 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         TextView description;
         //ProgressBar progress;
         int position;
-    }
-
-    public void showNewsItem(View v) {
-        ViewHolder holder = (ViewHolder) v.getTag();
-        int position = holder.position;
-        //Log.d("NEWSITEM", "Single news item will be shown: " + String.valueOf(position));
-
-        Intent intent = new Intent(context, ShowNewsItemActivity.class);
-        intent.putExtra(RSSFeedEntry.CLASSNAME, (RSSFeedEntry) items.get(position));
-
-        context.startActivity(intent);
     }
 }
