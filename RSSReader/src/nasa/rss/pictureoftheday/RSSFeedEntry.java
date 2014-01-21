@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RSSFeedEntry implements Parcelable {
+    public static final String CLASSNAME = "RSSFeedEntry";
+
     static final int TITLE = 1;
     static final int DESCRIPTION = 2;
     static final int DATE = 3;

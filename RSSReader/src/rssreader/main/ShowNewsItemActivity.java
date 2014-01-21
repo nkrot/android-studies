@@ -28,7 +28,7 @@ public class ShowNewsItemActivity extends Activity {
 
     private void populateViewFromIntent(Intent intent) {
         Bundle bundle = intent.getExtras();
-        RSSFeedEntry entry = bundle.getParcelable("RSSFeedEntry");
+        RSSFeedEntry entry = bundle.getParcelable(RSSFeedEntry.CLASSNAME);
 
         ImageView imageView = (ImageView) findViewById(R.id.icon);
         downloadAndSetImage(imageView, entry.getImageURL());

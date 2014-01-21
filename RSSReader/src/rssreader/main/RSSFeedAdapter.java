@@ -90,7 +90,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         //Log.d("NEWSITEM", "Single news item will be shown: " + String.valueOf(position));
 
         Intent intent = new Intent(context, ShowNewsItemActivity.class);
-        intent.putExtra("RSSFeedEntry", (RSSFeedEntry) items.get(position));
+        intent.putExtra(RSSFeedEntry.CLASSNAME, (RSSFeedEntry) items.get(position));
 
         context.startActivity(intent);
     }

@@ -11,6 +11,13 @@ import android.util.Xml;
 public class RSSFeedParser {
     private XmlPullParser xmlParser;
 
+    // XML elements that are recognized
+    private final String EL_ITEM = "item";
+    private final String EL_TITLE = "title";
+    private final String EL_DESCRIPTION = "description";
+    private final String EL_PUBDATE = "pubDate";
+    private final String EL_ENCLOSURE = "enclosure";
+
     public RSSFeed parse(InputStream inputStream)
             throws XmlPullParserException, IOException {
 
@@ -43,22 +50,22 @@ public class RSSFeedParser {
             if (eventType == XmlPullParser.START_TAG) {
                 //Log.d("Parsing, START_TAG", " " + xmlParser.getName());
 
-                if (isElement("item")) {
+                if (isElement(EL_ITEM)) {
                     entry = new RSSFeedEntry();
-                } else if (isElement("title")) {
+                } else if (isElement(EL_TITLE)) {
                     entry.acceptTitle();
-                } else if (isElement("description")) {
+                } else if (isElement(EL_DESCRIPTION)) {
                     entry.acceptDescription();
-                } else if (isElement("pubDate")) {
+                } else if (isElement(EL_PUBDATE)) {
                     entry.acceptDate();
-                } else if (isElement("enclosure")) {
+                } else if (isElement(EL_ENCLOSURE)) {
                     entry.setImageURL(xmlParser.getAttributeValue(null, "url"));
                 }
 
             } else if (eventType == XmlPullParser.END_TAG) {
                 //Log.d("Parsing, END_TAG", " " + xmlParser.getName());
                 entry.acceptNothing();
-                if (isElement("item")) {
+                if (isElement(EL_ITEM)) {
                     entries.add(entry);
                 }
 
