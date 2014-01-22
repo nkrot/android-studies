@@ -21,7 +21,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.items = items;
-        //Log.d("RSSFeedAdapted", "created, contains " + String.valueOf(items.size()) + " items");
+        //Log.d("RSSFeedAdapter", "created, contains " + String.valueOf(items.size()) + " items");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
-        RSSFeedEntry item = items.get(position);
+        RSSFeedEntry item = getItem(position);
         //Log.d("getView()", "item #" + String.valueOf(position) + " has title " + item.getTitle());
 
         downloadAndSetImage(holder.icon, item.getImageURL());
@@ -61,12 +61,12 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
     }
 
     // this method is a must! w/o it ArrayAdapter#getCount returns 0 and the list is not populated
-    // TODO: need to understand why this happens
     @Override
     public int getCount() {
         return items.size();
     }
 
+    // this method is a must! w/o it can not access items from MainActivity
     @Override
     public RSSFeedEntry getItem(int position) {
         return items.get(position);
