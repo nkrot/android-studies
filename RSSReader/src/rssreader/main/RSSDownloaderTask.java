@@ -20,21 +20,23 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     }
 
     private RSSCache rssCache;
-    private Boolean cacheIsUpToDate = null;
+    private boolean cacheIsUpToDate = false;
+    private boolean useCachedDataOnly;
 
     public RSSDownloaderTask(Activity activity) {
-        if (activity instanceof OnRSSDownloaderListener) {
-            listener = (OnRSSDownloaderListener) activity;
-        } else {
-            throw new ClassCastException(activity.toString()
-                    + " must implement RSSDownloaderTask.OnRSSDownloaderListener");
-        }
+        setListener(activity);
+        this.useCachedDataOnly = false;
+    }
+
+    public RSSDownloaderTask(Activity activity, boolean useCachedDataOnly) {
+        setListener(activity);
+        this.useCachedDataOnly = useCachedDataOnly;
     }
 
     @Override
     public RSSFeed doInBackground(String... args) {
         RSSFeed rssFeed;
-        if (cacheIsUpToDate) {
+        if (cacheIsUpToDate || useCachedDataOnly) {
             rssFeed = rssCache.getRSSFeed();
         } else {
             rssFeed = downloadRSSFeed();
@@ -50,7 +52,7 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
         rssCache = listener.getRSSCache();
         cacheIsUpToDate = rssCache.isUpToDate();
 
-        int rMsg = cacheIsUpToDate
+        int rMsg = cacheIsUpToDate || useCachedDataOnly
                 ? R.string.loading_cached_data
                 : R.string.downloading_anew;
 
@@ -63,6 +65,15 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
             feed = null;
         }
         listener.onPostExecuteRSSDownload(feed);
+    }
+
+    private void setListener(Activity activity) {
+        if (activity instanceof OnRSSDownloaderListener) {
+            listener = (OnRSSDownloaderListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement RSSDownloaderTask.OnRSSDownloaderListener");
+        }
     }
 
     private RSSFeed downloadRSSFeed() {

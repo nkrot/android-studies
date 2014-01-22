@@ -49,6 +49,10 @@ public class RSSCache {
         return upToDate;
     }
 
+    public boolean isEmpty() {
+        return getCacheDB().getRecordCount() == 0;
+    }
+
     /*
      * RSSFeed cache: forward the method calls to the underlying object
      */

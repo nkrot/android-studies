@@ -56,23 +56,27 @@ public class MainActivity extends Activity
     }
 
     @Override
+    public void onStop() {
+        rssCache.close();
+    }
+
+    @Override
     public void onClick(View view) {
         if (isNetworkAvailable()) {
             RSSDownloaderTask task = new RSSDownloaderTask(this);
             task.execute();
 
-        } else if (isDataInCacheAvailable() /*TODO*/) {
-            // TODO next: if network is not available but there is data in DB, ask the user 
-            // if he wants to view cached data. IF yes, get data from cache and display it.
-            showOfferCachedVersionAlert();
+        } else if (!rssCache.isEmpty()) {
+            showOfferCachedDataDialog();
 
         } else {
-            showNetworkIsDownAlert();
+            showNetworkIsDownDialog();
         }
     }
 
-    private boolean isDataInCacheAvailable() {
-        return false; // TODO
+    private void showCachedData() {
+        RSSDownloaderTask task = new RSSDownloaderTask(this, true);
+        task.execute();
     }
 
     private boolean isNetworkAvailable() {
@@ -81,7 +85,7 @@ public class MainActivity extends Activity
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    private void showNetworkIsDownAlert() {
+    private void showNetworkIsDownDialog() {
         //Log.d("NETWORK", "is DOWN");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -98,9 +102,7 @@ public class MainActivity extends Activity
         alertDialog.show();
     }
 
-    //RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView, useCache=true);
-    //task.execute();
-    private void showOfferCachedVersionAlert() {
+    private void showOfferCachedDataDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(R.string.network_not_available_but_can_show_cached_version)
@@ -109,7 +111,7 @@ public class MainActivity extends Activity
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        // TODO: load and show cached data
+                        showCachedData();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -138,7 +140,6 @@ public class MainActivity extends Activity
 
     public void onPostExecuteRSSDownload(RSSFeed feed) {
         progressDialog.dismiss();
-        //rssCache.close();
 
         if (rssFeedView != null) {
             RSSFeedAdapter adapter = new RSSFeedAdapter(this, R.layout.rss_feed_list_item, feed);

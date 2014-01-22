@@ -48,6 +48,13 @@ public class RSSCacheDB extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
     }
 
+    public int getRecordCount() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, new String[] { UID },
+                null, null, null, null, null);
+        return cursor.getCount();
+    }
+
     public RSSFeed getRSSFeed() {
         RSSFeed rssFeed = new RSSFeed();
         SQLiteDatabase db = getReadableDatabase();

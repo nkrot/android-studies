@@ -33,7 +33,7 @@ Homework #5 -- database and SharedPrefs
 
 5. DONE. Refactor RSSCache: move DB into helper (let RSSCache associate various sources)
 
-6. NEXT: When network is not available but there is data in database, tell the user network is off and ask him whether he wants to see cached data
+6. DONE: When network is not available but there is data in database, tell the user network is off and ask him whether he wants to see cached data
    If there is no cached data, just say that network is not available -- in MainActivity
 
 7. Show time to the user in the user's timezone and locale format
