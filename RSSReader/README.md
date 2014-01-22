@@ -27,7 +27,7 @@ Homework #5 -- database and SharedPrefs
    filename but different URI. Use URI.encode
    [?] Unlike the RSSFeed itself, there is no expiry date for images: once they get to the cache, they are always served from there.
 
-5. Refactor RSSCache: move DB into helper (let RSSCache associate various sources)
+5. DONE. Refactor RSSCache: move DB into helper (let RSSCache associate various sources)
 
 6. NEXT: When network is not available but there is data in database, tell the user network is off and ask him whether he wants to see cached data
    If there is no cached data, just say that network is not available -- in MainActivity
@@ -54,6 +54,7 @@ Homework #5 -- database and SharedPrefs
     The interface is to be implemented in MainActivity.
     As a result, RSSDownloaderTask will be unaware of UI and will be able to work with Fragment as well.
   
+14. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
 Homework #4 -- basic functionality of RSSFeed
 ===========
