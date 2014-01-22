@@ -14,8 +14,6 @@ Questions:
 
 5. in AsyncTask, is it in doInBackground() where the commands are run in background, or stuff in onPostExecute runs also in background?
 
-6. I dont like how rssCache is shared between MainActivity and RSSDownloadTask. what could an alternative be?
-
 Homework #5 -- database and SharedPrefs
 ===========
 
@@ -57,6 +55,8 @@ Homework #5 -- database and SharedPrefs
     Instead, keep a references to the interface in which onPreExecute() and onPostExecute() are defined.
     The interface is to be implemented in MainActivity.
     As a result, RSSDownloaderTask will be unaware of UI and will be able to work with Fragment as well.
+
+    TODO: I dont like how rssCache is shared between MainActivity and RSSDownloadTask. what could an alternative be?
   
 14. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
@@ -73,7 +73,7 @@ Homework #4 -- basic functionality of RSSFeed
 7. ? How to use ProgressBar instead of ProgressDialog?
      http://stackoverflow.com/questions/4119009/progressbar-togther-with-asynctask
      http://stackoverflow.com/questions/10844116/display-progress-bar-while-loading
-
+8. check mime-type of downloaded stuff
 
 Useful links
 ============
