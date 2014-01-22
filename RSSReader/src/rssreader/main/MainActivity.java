@@ -57,6 +57,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onStop() {
+        super.onStop();
         rssCache.close();
     }
 
