@@ -1,9 +1,13 @@
 package rssreader.main;
 
 import krot.rssreader.R;
+import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedEntry;
+import rssreader.cache.RSSCache;
+import rssreader.main.RSSDownloaderTask.OnRSSDownloaderListener;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,14 +20,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 /*
-  Q: Why there is no such import in Roman's starter code?
-     import android.view.View.OnClickListener;
   Q: Using StrictMode requires minSdk=9. What is the correct approach to target this situation?
 */
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity
+        implements OnClickListener, OnRSSDownloaderListener {
 
     public ListView rssFeedView;
+    private ProgressDialog progressDialog;
+    public RSSCache rssCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         });
 
+        rssCache = new RSSCache(rssFeedView.getContext());
+
         // this will allow running the network operations on the main thread
         // this is a temporary fix I use when developing FeedDownloader
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -51,14 +58,12 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         if (isNetworkAvailable()) {
-            RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView);
+            RSSDownloaderTask task = new RSSDownloaderTask(this);
             task.execute();
 
-        } else if (isCacheAvailable() /*TODO*/) {
+        } else if (isDataInCacheAvailable() /*TODO*/) {
             // TODO next: if network is not available but there is data in DB, ask the user 
             // if he wants to view cached data. IF yes, get data from cache and display it.
-            //RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView, useCache=true);
-            //task.execute();
             showOfferCachedVersionAlert();
 
         } else {
@@ -66,7 +71,7 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
-    private boolean isCacheAvailable() {
+    private boolean isDataInCacheAvailable() {
         return false; // TODO
     }
 
@@ -93,6 +98,8 @@ public class MainActivity extends Activity implements OnClickListener {
         alertDialog.show();
     }
 
+    //RSSDownloaderTask task = new RSSDownloaderTask(this, rssFeedView, useCache=true);
+    //task.execute();
     private void showOfferCachedVersionAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -115,4 +122,28 @@ public class MainActivity extends Activity implements OnClickListener {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    /*
+     * implementation of rssreader.main.RSSDownloaderTask.OnRSSDownloaderListener
+     */
+
+    public RSSCache getRSSCache() {
+        return rssCache;
+    }
+
+    public void onPreExecuteRSSDownload(int rStrId) {
+        progressDialog = ProgressDialog.show(rssFeedView.getContext(), null,
+                rssFeedView.getResources().getString(rStrId));
+    }
+
+    public void onPostExecuteRSSDownload(RSSFeed feed) {
+        progressDialog.dismiss();
+        //rssCache.close();
+
+        if (rssFeedView != null) {
+            RSSFeedAdapter adapter = new RSSFeedAdapter(this, R.layout.rss_feed_list_item, feed);
+            rssFeedView.setAdapter(adapter);
+        }
+    }
+
 }

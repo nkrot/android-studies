@@ -12,6 +12,10 @@ Questions:
 4. The app crashes in ShowNewsItemActivity if ImageView in activity_show_news_item is placed as the 3rd element,
     after the title and the date.
 
+5. in AsyncTask, is it in doInBackground() where the commands are run in background, or stuff in onPostExecute runs also in background?
+
+6. I dont like how rssCache is shared between MainActivity and RSSDownloadTask. what could an alternative be?
+
 Homework #5 -- database and SharedPrefs
 ===========
 
@@ -49,7 +53,7 @@ Homework #5 -- database and SharedPrefs
 12. DONE. Showing a single news item when a list item is clicked moved from RSSFeedAdapter to MainActivity:
       rssFeedView.setOnItemClickListener(listener)
 
-13. Refactor: RSSDownloaderTask should not keep references to UI  (targetActivity, targetView, progressDialog)
+13. DONE. Refactor: RSSDownloaderTask should not keep references to UI  (targetActivity, targetView, progressDialog)
     Instead, keep a references to the interface in which onPreExecute() and onPostExecute() are defined.
     The interface is to be implemented in MainActivity.
     As a result, RSSDownloaderTask will be unaware of UI and will be able to work with Fragment as well.

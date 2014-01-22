@@ -5,36 +5,40 @@ import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedDownloader;
 import rssreader.cache.RSSCache;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ListView;
 
 public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progress*/, RSSFeed /*result*/> {
-    private final Activity targetActivity;
-    private final ListView targetView;
-    private ProgressDialog progressDialog;
+    private OnRSSDownloaderListener listener;
+
+    public interface OnRSSDownloaderListener {
+        public void onPreExecuteRSSDownload(int rStrId);
+
+        public void onPostExecuteRSSDownload(RSSFeed feed);
+
+        public RSSCache getRSSCache();
+    }
 
     private RSSCache rssCache;
-    private Boolean cacheIsUpToDate;
+    private Boolean cacheIsUpToDate = null;
 
-    public RSSDownloaderTask(Activity activity, ListView view) {
-        // TODO: perhaps using WeakReference would be preferable?
-        targetActivity = activity;
-        targetView = view;
-        progressDialog = null;
-        cacheIsUpToDate = false;
+    public RSSDownloaderTask(Activity activity) {
+        if (activity instanceof OnRSSDownloaderListener) {
+            listener = (OnRSSDownloaderListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement RSSDownloaderTask.OnRSSDownloaderListener");
+        }
     }
 
     @Override
     public RSSFeed doInBackground(String... args) {
-        //publishProgress(true); // with ProgressBar
         RSSFeed rssFeed;
         if (cacheIsUpToDate) {
             rssFeed = rssCache.getRSSFeed();
         } else {
             rssFeed = downloadRSSFeed();
-            rssCache.saveToCache(rssFeed);
+            rssCache.saveToCache(rssFeed); // TODO: will it run in background? could be moved to onPostExecute?
         }
         return rssFeed;
     }
@@ -43,38 +47,23 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     protected void onPreExecute() {
         super.onPreExecute();
 
-        rssCache = new RSSCache(targetView.getContext());
+        rssCache = listener.getRSSCache();
         cacheIsUpToDate = rssCache.isUpToDate();
 
-        int msg = cacheIsUpToDate ? R.string.loading_cached_data : R.string.downloading_anew;
-        progressDialog = ProgressDialog.show(targetView.getContext(), null,
-                targetView.getResources().getString(msg));
+        int rMsg = cacheIsUpToDate
+                ? R.string.loading_cached_data
+                : R.string.downloading_anew;
+
+        listener.onPreExecuteRSSDownload(rMsg);
     }
 
     @Override
     protected void onPostExecute(RSSFeed feed) {
-        //publishProgress(false); // with ProgressBar
-        progressDialog.dismiss(); // with ProgressDialog
-        rssCache.close();
-
         if (isCancelled()) {
             feed = null;
         }
-
-        if (targetView != null) {
-            RSSFeedAdapter adapter = new RSSFeedAdapter(targetActivity, R.layout.rss_feed_list_item, feed);
-            targetView.setAdapter(adapter);
-        }
+        listener.onPostExecuteRSSDownload(feed);
     }
-
-    /* 
-     * with ProgressBar. unfinished
-    @Override
-    protected void onProgressUpdate(Boolean... progress) {
-        Log.d("PROGRESSBAR", "updating");
-        targetActivity.setProgressBarIndeterminateVisibility(progress[0]);
-    }
-    */
 
     private RSSFeed downloadRSSFeed() {
         RSSFeedDownloader downloader = new RSSFeedDownloader();
