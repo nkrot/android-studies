@@ -38,7 +38,6 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
             holder.title = (TextView) rowView.findViewById(R.id.title);
             holder.date = (TextView) rowView.findViewById(R.id.date);
             holder.description = (TextView) rowView.findViewById(R.id.description);
-            holder.position = position;
             rowView.setTag(holder);
         }
 
@@ -78,6 +77,6 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         TextView date;
         TextView description;
         //ProgressBar progress;
-        int position;
+        //int position;
     }
 }
