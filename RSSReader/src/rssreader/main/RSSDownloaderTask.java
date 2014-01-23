@@ -4,12 +4,16 @@ import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedDownloader;
 import rssreader.cache.RSSCache;
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progress*/, RSSFeed /*result*/> {
+public class RSSDownloaderTask
+        extends AsyncTask<String /*param*/, Void /*progress*/, RSSFeed /*result*/> {
+
     private OnRSSDownloaderListener listener;
+    private RSSCache rssCache;
+    private boolean cacheIsUpToDate = false;
+    private boolean useCachedDataOnly = false;
 
     public interface OnRSSDownloaderListener {
         public void onPreExecuteRSSDownload(int rStrId);
@@ -19,17 +23,13 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
         public RSSCache getRSSCache();
     }
 
-    private RSSCache rssCache;
-    private boolean cacheIsUpToDate = false;
-    private boolean useCachedDataOnly;
-
-    public RSSDownloaderTask(Activity activity) {
-        setListener(activity);
+    public RSSDownloaderTask(OnRSSDownloaderListener listener) {
+        this.listener = listener;
         this.useCachedDataOnly = false;
     }
 
-    public RSSDownloaderTask(Activity activity, boolean useCachedDataOnly) {
-        setListener(activity);
+    public RSSDownloaderTask(OnRSSDownloaderListener listener, boolean useCachedDataOnly) {
+        this.listener = (OnRSSDownloaderListener) listener;
         this.useCachedDataOnly = useCachedDataOnly;
     }
 
@@ -40,7 +40,7 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
             rssFeed = rssCache.getRSSFeed();
         } else {
             rssFeed = downloadRSSFeed();
-            rssCache.saveToCache(rssFeed); // TODO: will it run in background? could be moved to onPostExecute?
+            rssCache.saveToCache(rssFeed);
         }
         return rssFeed;
     }
@@ -49,14 +49,16 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
     protected void onPreExecute() {
         super.onPreExecute();
 
-        rssCache = listener.getRSSCache();
-        cacheIsUpToDate = rssCache.isUpToDate();
+        if (listener != null) {
+            rssCache = listener.getRSSCache();
+            cacheIsUpToDate = rssCache.isUpToDate();
 
-        int rMsg = cacheIsUpToDate || useCachedDataOnly
-                ? R.string.loading_cached_data
-                : R.string.downloading_anew;
+            int rMsg = cacheIsUpToDate || useCachedDataOnly
+                    ? R.string.loading_cached_data
+                    : R.string.downloading_anew;
 
-        listener.onPreExecuteRSSDownload(rMsg);
+            listener.onPreExecuteRSSDownload(rMsg);
+        }
     }
 
     @Override
@@ -64,15 +66,8 @@ public class RSSDownloaderTask extends AsyncTask<String /*param*/, Void /*progre
         if (isCancelled()) {
             feed = null;
         }
-        listener.onPostExecuteRSSDownload(feed);
-    }
-
-    private void setListener(Activity activity) {
-        if (activity instanceof OnRSSDownloaderListener) {
-            listener = (OnRSSDownloaderListener) activity;
-        } else {
-            throw new ClassCastException(activity.toString()
-                    + " must implement RSSDownloaderTask.OnRSSDownloaderListener");
+        if (listener != null) {
+            listener.onPostExecuteRSSDownload(feed);
         }
     }
 
