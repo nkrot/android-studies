@@ -3,16 +3,17 @@ This application is an RSS reader for the following channel:
 
 Questions:
 ==========
-1. what is the difference between cache (getCacheDir) and Internal Storage (openFileInput(), openFIleOutput())
+1. what is the difference between cache (getCacheDir) and Internal Storage (openFileInput(), openFileOutput())
+
 2. what is the correct approach of storing timestamps in DB/preferences. And how to show time correctly to the user (respecting user's locale)
    -- keep it in milliseconds
 
 3. THE APPLICATION CRASHES WHEN SCROLLING DOWN THE LIST
 
 4. The app crashes in ShowNewsItemActivity if ImageView in activity_show_news_item is placed as the 3rd element,
-    after the title and the date.
+    after the title and the date. -- no longer crashes. hummm
 
-5. in AsyncTask, is it in doInBackground() where the commands are run in background, or stuff in onPostExecute runs also in background?
+5. A: in AsyncTask, is it in doInBackground() only where the commands are run in background, meanwhile stuff in onPostExecute runs also in background?
 
 Homework #5 -- database and SharedPrefs
 ===========
@@ -57,8 +58,17 @@ Homework #5 -- database and SharedPrefs
     As a result, RSSDownloaderTask will be unaware of UI and will be able to work with Fragment as well.
 
     TODO: I dont like how rssCache is shared between MainActivity and RSSDownloadTask. what could an alternative be?
+    
+    Solution: let class RSSCache be singleton and access it directly instead of getRSSCache()
+    create the instance of RSSCache in Application.onCreate()
   
 14. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
+
+15. replace fill_parent with match_parent
+
+16. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
+
+17. for better code structuring, move all table column names into an interface that will contain but these names
 
 Homework #4 -- basic functionality of RSSFeed
 ===========

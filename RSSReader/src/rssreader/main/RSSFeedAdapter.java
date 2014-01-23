@@ -16,6 +16,8 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
     private RSSFeed items;
     private Context context;
 
+    //    private final BitmapDownloaderTask downloaderTask;
+
     public RSSFeedAdapter(Context context, int resource, RSSFeed items) {
         super(context, resource);
         this.context = context;
@@ -54,6 +56,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         return rowView;
     }
 
+    // TODO: do not recreate tasks! one if enough to download all
     private void downloadAndSetImage(ImageView view, String url) {
         BitmapDownloaderTask task = new BitmapDownloaderTask(view);
         task.execute(url);
@@ -76,7 +79,5 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         TextView title;
         TextView date;
         TextView description;
-        //ProgressBar progress;
-        //int position;
     }
 }
