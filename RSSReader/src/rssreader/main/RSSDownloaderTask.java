@@ -29,7 +29,7 @@ public class RSSDownloaderTask
     }
 
     public RSSDownloaderTask(OnRSSDownloaderListener listener, boolean useCachedDataOnly) {
-        this.listener = (OnRSSDownloaderListener) listener;
+        this.listener = listener;
         this.useCachedDataOnly = useCachedDataOnly;
     }
 
