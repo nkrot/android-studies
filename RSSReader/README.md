@@ -26,9 +26,9 @@ Homework #5 -- database and SharedPrefs
 3. DONE. If the REFRESH button is pressed within a specified period since the last download (say, 5 min), show data from the DB. Otherwise redownload.
 
 4. DONE. Once downloaded, the image should be saved in the cache (getCacheDir()) and retrieved from there on the next query.
-   TODO: build the image file name in the cache on the basis of the complete URL to avoid possible collision if two images have the same
-   filename but different URI. Use URI.encode
-   [?] Unlike the RSSFeed itself, there is no expiry date for images: once they get to the cache, they are always served from there.
+   DONE: build the image file name in the cache on the basis of the complete URL to avoid possible collision if two images have the same
+         filename but different URI. Use URI.encode
+   TODO: Unlike the RSSFeed itself, there is no expiry date for images: once they get to the cache, they are always served from there.
 
 5. DONE. Refactor RSSCache: move DB into helper (let RSSCache associate various sources)
 

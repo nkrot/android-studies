@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 
 public class RSSCache {
@@ -155,20 +156,6 @@ public class RSSCache {
     }
 
     private File getPathToImageInCache(String url) {
-        return new File(context.getCacheDir(), getFileNameFromUrl(url));
-    }
-
-    // http://www.nasa.gov/sites/default/files/styles/946xvariable_height/public/images/246076main_E60-6286_full.jpg?itok=jKIKw4DP
-    // --> 246076main_E60-6286_full.jpg
-    private String getFileNameFromUrl(String url) {
-        String fileName;
-        int slashIndex = url.lastIndexOf("/");
-        int qIndex = url.lastIndexOf("?");
-        if (qIndex > slashIndex) {
-            fileName = url.substring(slashIndex + 1, qIndex);
-        } else {
-            fileName = url.substring(slashIndex + 1);
-        }
-        return fileName;
+        return new File(context.getCacheDir(), Uri.encode(url));
     }
 }
