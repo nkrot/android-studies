@@ -30,7 +30,7 @@ public class ShowNewsItemActivity extends Activity {
         Bundle bundle = intent.getExtras();
         RSSFeedEntry entry = bundle.getParcelable(RSSFeedEntry.CLASSNAME);
 
-        ImageView imageView = (ImageView) findViewById(R.id.icon);
+        ImageView imageView = (ImageView) findViewById(R.id.image);
         downloadAndSetImage(imageView, entry.getImageURL());
 
         TextView titleView = (TextView) findViewById(R.id.title);

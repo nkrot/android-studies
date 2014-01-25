@@ -36,7 +36,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
             rowView = inflater.inflate(R.layout.rss_feed_list_item, parent, false);
 
             ViewHolder holder = new ViewHolder();
-            holder.icon = (ImageView) rowView.findViewById(R.id.icon);
+            holder.image = (ImageView) rowView.findViewById(R.id.image);
             holder.title = (TextView) rowView.findViewById(R.id.title);
             holder.date = (TextView) rowView.findViewById(R.id.date);
             holder.description = (TextView) rowView.findViewById(R.id.description);
@@ -48,7 +48,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
         RSSFeedEntry item = getItem(position);
         //Log.d("getView()", "item #" + String.valueOf(position) + " has title " + item.getTitle());
 
-        downloadAndSetImage(holder.icon, item.getImageURL());
+        downloadAndSetImage(holder.image, item.getImageURL());
         holder.title.setText(item.getTitle());
         holder.date.setText(item.getDate());
         holder.description.setText(item.getDescription());
@@ -75,7 +75,7 @@ public class RSSFeedAdapter extends ArrayAdapter<RSSFeedEntry> {
     }
 
     static class ViewHolder {
-        ImageView icon;
+        ImageView image;
         TextView title;
         TextView date;
         TextView description;

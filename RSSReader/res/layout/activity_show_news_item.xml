@@ -24,20 +24,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            <!--android:scrollbarStyle="insideOverlay" -->
 
-			<!-- TODO: WTF! The app crashes (when in ShowNewsItemActivity)
-			     if the ImageView is placed as the 3rd element, after the title and the date -->
-           <ImageView
-                android:id="@+id/icon"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/ic_launcher" />
+            <!-- android:scrollbarStyle="insideOverlay" -->
 
-             <TextView
+
+            <!--
+                 TODO: WTF! The app crashes (when in ShowNewsItemActivity)
+			     if the ImageView is placed as the 3rd element, after the title and the date
+            -->
+
+            <TextView
                 android:id="@+id/title"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:text="@string/title"
@@ -45,16 +43,23 @@
 
             <TextView
                 android:id="@+id/date"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:text="@string/date"
                 android:textStyle="italic" />
- 
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_launcher" />
+
             <TextView
                 android:id="@+id/description"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:text="@string/description" />

@@ -80,11 +80,11 @@ Homework #5 -- database and SharedPrefs
   
 15. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
-16. replace fill_parent with match_parent
+16. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
 
-17. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
+17. for better code structuring, move all table column names into an interface that will contain but these names
 
-18. for better code structuring, move all table column names into an interface that will contain but these names
+18. When showing a single new item, allow going directly to the next news in the feed
 
 Homework #4 -- basic functionality of RSSFeed
 ===========
