@@ -1,4 +1,4 @@
-package rssreader.main;
+package rssreader.datasource;
 
 import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeed;
@@ -7,7 +7,7 @@ import rssreader.cache.RSSCache;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class RSSDownloaderTask
+public class RSSDataFetcher
         extends AsyncTask<String /*param*/, Void /*progress*/, RSSFeed /*result*/> {
 
     private OnRSSDownloaderListener listener;
@@ -21,7 +21,7 @@ public class RSSDownloaderTask
         public void onPostExecuteRSSDownload(RSSFeed feed);
     }
 
-    public RSSDownloaderTask(OnRSSDownloaderListener listener) {
+    public RSSDataFetcher(OnRSSDownloaderListener listener) {
         this.listener = listener;
         this.useCachedDataOnly = false;
     }

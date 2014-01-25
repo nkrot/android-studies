@@ -4,7 +4,8 @@ import krot.rssreader.R;
 import nasa.rss.pictureoftheday.RSSFeed;
 import nasa.rss.pictureoftheday.RSSFeedEntry;
 import rssreader.cache.RSSCache;
-import rssreader.main.RSSDownloaderTask.OnRSSDownloaderListener;
+import rssreader.datasource.RSSDataFetcher;
+import rssreader.datasource.RSSDataFetcher.OnRSSDownloaderListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -76,13 +77,13 @@ public class MainActivity extends Activity
     }
 
     public void showRSSData() {
-        RSSDownloaderTask dataFetcher = new RSSDownloaderTask(this);
+        RSSDataFetcher dataFetcher = new RSSDataFetcher(this);
         //dataFetcher.allowDownloading(); // this is the default
         dataFetcher.execute();
     }
 
     private void showCachedRSSData() {
-        RSSDownloaderTask dataFetcher = new RSSDownloaderTask(this);
+        RSSDataFetcher dataFetcher = new RSSDataFetcher(this);
         dataFetcher.forbidDownloading();
         dataFetcher.execute();
     }
