@@ -86,6 +86,10 @@ Homework #5 -- database and SharedPrefs
 
 18. When showing a single new item, allow going directly to the next news in the feed
 
+19. DONE. do not cut the bottom of the text when it does not fit into the text area
+    fixed: added proper layout_height and maxLines. also added 'ellipsize=end' to get those nice ... at the end of the text
+    TODO: ugly text still appears at the end: 'Ring scientists can also use...t'
+
 Homework #4 -- basic functionality of RSSFeed
 ===========
 
