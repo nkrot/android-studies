@@ -1,14 +1,18 @@
 package rssreader.main;
 
-import rssreader.rssfeed.RSSFeedEntry;
 import krot.rssreader.R;
+import rssreader.datasource.BitmapFetcher;
+import rssreader.datasource.BitmapFetcher.OnBitmapFetcherListener;
+import rssreader.rssfeed.RSSFeedEntry;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ShowNewsItemActivity extends Activity {
+public class ShowNewsItemActivity extends Activity
+        implements OnBitmapFetcherListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,7 @@ public class ShowNewsItemActivity extends Activity {
         Bundle bundle = intent.getExtras();
         RSSFeedEntry entry = bundle.getParcelable(RSSFeedEntry.CLASSNAME);
 
-        ImageView imageView = (ImageView) findViewById(R.id.image);
-        downloadAndSetImage(imageView, entry.getImageURL());
+        fetchAndSetImage(entry.getImageURL());
 
         TextView titleView = (TextView) findViewById(R.id.title);
         titleView.setText(entry.getTitle());
@@ -43,9 +46,20 @@ public class ShowNewsItemActivity extends Activity {
         descView.setText(entry.getDescription());
     }
 
-    // TODO: this is a literal duplicate of a method in RSSFeedAdapter
-    private void downloadAndSetImage(ImageView view, String url) {
-        BitmapDownloaderTask task = new BitmapDownloaderTask(view);
+    /* TODO: the code below duplicates the code in RSSFeedAdapter. get rid of duplication */
+
+    private void fetchAndSetImage(String url) {
+        BitmapFetcher task = new BitmapFetcher(this);
         task.execute(url);
     }
+
+    public void onPreExecuteBitmapFetching() {
+        // unused
+    }
+
+    public void onPostExecuteBitmapFetching(String url, Bitmap bitmap) {
+        ImageView imageView = (ImageView) findViewById(R.id.image);
+        imageView.setImageBitmap(bitmap);
+    }
+
 }

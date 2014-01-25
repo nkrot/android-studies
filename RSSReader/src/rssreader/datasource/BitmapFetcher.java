@@ -1,4 +1,4 @@
-package rssreader.main;
+package rssreader.datasource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,25 +10,26 @@ import rssreader.cache.RSSCache;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 
-public class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-    private final ImageView targetImageView;
+public class BitmapFetcher extends AsyncTask<String, Void, Bitmap> {
+    private OnBitmapFetcherListener listener;
 
-    // Alternatively: TODO: is it better?
-    //private final WeakReference<ImageView> targetImageViewReference;
+    public interface OnBitmapFetcherListener {
+        public void onPreExecuteBitmapFetching();
 
-    public BitmapDownloaderTask(ImageView view) {
-        targetImageView = view;
-        // Alternatively: TODO is it better?
-        // targetImageViewReference = new WeakReference<ImageView>(view);
+        public void onPostExecuteBitmapFetching(String url, Bitmap bitmap);
+    }
+
+    private String url;
+
+    public BitmapFetcher(OnBitmapFetcherListener listener) {
+        this.listener = listener;
     }
 
     @Override
     protected Bitmap doInBackground(String... args) {
-        String url = args[0];
+        url = args[0];
 
-        //RSSCache rssCache = new RSSCache(targetImageView.getContext());
         RSSCache rssCache = RSSCache.getInstance();
 
         Bitmap bitmap = rssCache.getBitmap(url);
@@ -36,9 +37,6 @@ public class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
             bitmap = downloadBitmap(url);
             rssCache.saveToCache(bitmap, url);
         }
-
-        rssCache.close();
-
         return bitmap;
     }
 
@@ -48,19 +46,9 @@ public class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
             bitmap = null;
         }
 
-        if (targetImageView != null) {
-            targetImageView.setImageBitmap(bitmap);
+        if (listener != null) {
+            listener.onPostExecuteBitmapFetching(url, bitmap);
         }
-
-        // Alternatively: TODO: is it better than the above?
-        /*
-        if (targetImageViewReference != null) {
-            ImageView targetImageView = targetImageViewReference.get();
-            if (targetImageView != null) {
-                targetImageView.setImageBitmap(bitmap);
-            }
-        }
-        */
     }
 
     private Bitmap downloadBitmap(String link) {

@@ -3,7 +3,7 @@ package rssreader.main;
 import krot.rssreader.R;
 import rssreader.cache.RSSCache;
 import rssreader.datasource.RSSDataFetcher;
-import rssreader.datasource.RSSDataFetcher.OnRSSDownloaderListener;
+import rssreader.datasource.RSSDataFetcher.OnRSSDataFetcherListener;
 import rssreader.rssfeed.RSSFeed;
 import rssreader.rssfeed.RSSFeedEntry;
 import android.app.Activity;
@@ -25,7 +25,7 @@ import android.widget.ListView;
 */
 
 public class MainActivity extends Activity
-        implements OnClickListener, OnRSSDownloaderListener {
+        implements OnClickListener, OnRSSDataFetcherListener {
 
     public ListView rssFeedView;
     private ProgressDialog progressDialog;
@@ -135,15 +135,15 @@ public class MainActivity extends Activity
     }
 
     /*
-     * implementation of rssreader.main.RSSDownloaderTask.OnRSSDownloaderListener
+     * implementation of rssreader.main.RSSDataFetcher.OnRSSdataFetcherListener
      */
 
-    public void onPreExecuteRSSDownload(int rStrId) {
+    public void onPreExecuteRSSDataFetching(int rStrId) {
         progressDialog = ProgressDialog.show(rssFeedView.getContext(), null,
                 rssFeedView.getResources().getString(rStrId));
     }
 
-    public void onPostExecuteRSSDownload(RSSFeed feed) {
+    public void onPostExecuteRSSDataFetching(RSSFeed feed) {
         progressDialog.dismiss();
 
         if (rssFeedView != null) {

@@ -10,18 +10,18 @@ import android.util.Log;
 public class RSSDataFetcher
         extends AsyncTask<String /*param*/, Void /*progress*/, RSSFeed /*result*/> {
 
-    private OnRSSDownloaderListener listener;
+    private OnRSSDataFetcherListener listener;
     private RSSCache rssCache;
     private boolean cacheIsUpToDate = false;
     private boolean useCachedDataOnly = false;
 
-    public interface OnRSSDownloaderListener {
-        public void onPreExecuteRSSDownload(int rStrId);
+    public interface OnRSSDataFetcherListener {
+        public void onPreExecuteRSSDataFetching(int rStrId);
 
-        public void onPostExecuteRSSDownload(RSSFeed feed);
+        public void onPostExecuteRSSDataFetching(RSSFeed feed);
     }
 
-    public RSSDataFetcher(OnRSSDownloaderListener listener) {
+    public RSSDataFetcher(OnRSSDataFetcherListener listener) {
         this.listener = listener;
         this.useCachedDataOnly = false;
     }
@@ -58,7 +58,7 @@ public class RSSDataFetcher
                 : R.string.downloading_anew;
 
         if (listener != null) {
-            listener.onPreExecuteRSSDownload(rMsg);
+            listener.onPreExecuteRSSDataFetching(rMsg);
         }
     }
 
@@ -68,7 +68,7 @@ public class RSSDataFetcher
             feed = null;
         }
         if (listener != null) {
-            listener.onPostExecuteRSSDownload(feed);
+            listener.onPostExecuteRSSDataFetching(feed);
         }
     }
 

@@ -25,6 +25,8 @@ Questions:
       a) in MainActivity
       b) in a new class MyApplication (in onCreate). Is it possible to get Context here?
 
+9. THE APP CRASHES (OUTOFMEMORY) IN THE FOLLOWING SCENARIO: LET THE LIST SHOWN, CLICK A NEWS AND SEE A NEWS ITEM, GO BACK, CLICK ANOTHER NEWS
+
 Homework #5 -- database and SharedPrefs
 ===========
 
@@ -80,7 +82,7 @@ Homework #5 -- database and SharedPrefs
   
 15. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
-16. use a single instance of BitmapDownloaderTask tasks to download all images. Bare in mind the task can be executed only once.
+16. ??? use a single instance of BitmapDownloaderTask tasks to download all images. Bare in mind the task can be executed only once.
 
 17. for better code structuring, move all table column names into an interface that will contain but these names
 
