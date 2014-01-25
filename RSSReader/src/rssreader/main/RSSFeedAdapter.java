@@ -1,8 +1,8 @@
 package rssreader.main;
 
+import rssreader.rssfeed.RSSFeed;
+import rssreader.rssfeed.RSSFeedEntry;
 import krot.rssreader.R;
-import nasa.rss.pictureoftheday.RSSFeed;
-import nasa.rss.pictureoftheday.RSSFeedEntry;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

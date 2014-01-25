@@ -1,4 +1,4 @@
-package nasa.rss.pictureoftheday;
+package rssreader.rssfeed;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,11 +1,11 @@
 package rssreader.main;
 
 import krot.rssreader.R;
-import nasa.rss.pictureoftheday.RSSFeed;
-import nasa.rss.pictureoftheday.RSSFeedEntry;
 import rssreader.cache.RSSCache;
 import rssreader.datasource.RSSDataFetcher;
 import rssreader.datasource.RSSDataFetcher.OnRSSDownloaderListener;
+import rssreader.rssfeed.RSSFeed;
+import rssreader.rssfeed.RSSFeedEntry;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

@@ -1,9 +1,9 @@
 package rssreader.datasource;
 
 import krot.rssreader.R;
-import nasa.rss.pictureoftheday.RSSFeed;
-import nasa.rss.pictureoftheday.RSSFeedDownloader;
 import rssreader.cache.RSSCache;
+import rssreader.rssfeed.RSSFeed;
+import rssreader.rssfeed.RSSFeedDownloader;
 import android.os.AsyncTask;
 import android.util.Log;
 

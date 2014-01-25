@@ -1,4 +1,4 @@
-package nasa.rss.pictureoftheday;
+package rssreader.rssfeed;
 
 import android.os.Parcel;
 import android.os.Parcelable;

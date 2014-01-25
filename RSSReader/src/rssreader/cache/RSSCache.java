@@ -10,7 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import nasa.rss.pictureoftheday.RSSFeed;
+import rssreader.rssfeed.RSSFeed;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;

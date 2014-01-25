@@ -1,7 +1,7 @@
 package rssreader.cache;
 
-import nasa.rss.pictureoftheday.RSSFeed;
-import nasa.rss.pictureoftheday.RSSFeedEntry;
+import rssreader.rssfeed.RSSFeed;
+import rssreader.rssfeed.RSSFeedEntry;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -31,11 +31,8 @@ public class RSSCacheDB extends SQLiteOpenHelper {
                     + IMAGEURL + " VARCHAR(255)"
                     + ");";
 
-    private Context context;
-
     public RSSCacheDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
     }
 
     @Override
