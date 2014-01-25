@@ -80,7 +80,7 @@ Homework #5 -- database and SharedPrefs
   
 15. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
-16. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
+16. use a single instance of BitmapDownloaderTask tasks to download all images. Bare in mind the task can be executed only once.
 
 17. for better code structuring, move all table column names into an interface that will contain but these names
 

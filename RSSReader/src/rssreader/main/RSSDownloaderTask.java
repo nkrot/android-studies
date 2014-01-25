@@ -26,9 +26,12 @@ public class RSSDownloaderTask
         this.useCachedDataOnly = false;
     }
 
-    public RSSDownloaderTask(OnRSSDownloaderListener listener, boolean useCachedDataOnly) {
-        this.listener = listener;
-        this.useCachedDataOnly = useCachedDataOnly;
+    public void allowDownloading() {
+        useCachedDataOnly = false;
+    }
+
+    public void forbidDownloading() {
+        useCachedDataOnly = true;
     }
 
     @Override

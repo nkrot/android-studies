@@ -65,8 +65,7 @@ public class MainActivity extends Activity
     @Override
     public void onClick(View view) {
         if (isNetworkAvailable()) {
-            RSSDownloaderTask task = new RSSDownloaderTask(this);
-            task.execute();
+            showRSSData();
 
         } else if (!rssCache.isEmpty()) {
             showOfferCachedDataDialog();
@@ -76,9 +75,16 @@ public class MainActivity extends Activity
         }
     }
 
-    private void showCachedData() {
-        RSSDownloaderTask task = new RSSDownloaderTask(this, true);
-        task.execute();
+    public void showRSSData() {
+        RSSDownloaderTask dataFetcher = new RSSDownloaderTask(this);
+        //dataFetcher.allowDownloading(); // this is the default
+        dataFetcher.execute();
+    }
+
+    private void showCachedRSSData() {
+        RSSDownloaderTask dataFetcher = new RSSDownloaderTask(this);
+        dataFetcher.forbidDownloading();
+        dataFetcher.execute();
     }
 
     private boolean isNetworkAvailable() {
@@ -113,7 +119,7 @@ public class MainActivity extends Activity
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        showCachedData();
+                        showCachedRSSData();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
