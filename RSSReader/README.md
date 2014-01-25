@@ -8,12 +8,22 @@ Questions:
 2. what is the correct approach of storing timestamps in DB/preferences. And how to show time correctly to the user (respecting user's locale)
    -- keep it in milliseconds
 
-3. THE APPLICATION CRASHES WHEN SCROLLING DOWN THE LIST
+3. THE APPLICATION CRASHES WHEN SCROLLING DOWN THE LIST -- probably because there is too many downloading async tasks
 
-4. The app crashes in ShowNewsItemActivity if ImageView in activity_show_news_item is placed as the 3rd element,
+4. ?? The app crashes in ShowNewsItemActivity if ImageView in activity_show_news_item is placed as the 3rd element,
     after the title and the date. -- no longer crashes. hummm
 
 5. A: in AsyncTask, is it in doInBackground() only where the commands are run in background, meanwhile stuff in onPostExecute runs also in background?
+
+6. Q: what is the best place to stop the underlying DB? Now i am doing it in MainActivity#onStop and it seems to be happening way too often!
+
+7. Q: what is the best way to pass data to ShowNewsItemActivity:
+      a) via an Intent with Parcelable RSSFeedEntry (current implementation)
+      b) by passing an record ID in RSSCache and making the Activity retrieve that record from the RSSCache -- we believe that the cache exists and contains relevant data
+      
+8. Q: What is the best place to initialize the singleton RSSCache.initInstance(Context)?
+      a) in MainActivity
+      b) in a new class MyApplication (in onCreate). Is it possible to get Context here?
 
 Homework #5 -- database and SharedPrefs
 ===========
@@ -23,7 +33,8 @@ Homework #5 -- database and SharedPrefs
 2. DONE. The download timestamp should be saved as SharedPreference.
    TODO: in what format? maybe it will just enough to keep it in milliseconds?
    
-3. DONE. If the REFRESH button is pressed within a specified period since the last download (say, 5 min), show data from the DB. Otherwise redownload.
+3. DONE. If the REFRESH button is pressed within a specified period since the last download (say, 5 min), 
+   show data from the DB. Otherwise redownload.
 
 4. DONE. Once downloaded, the image should be saved in the cache (getCacheDir()) and retrieved from there on the next query.
    DONE: build the image file name in the cache on the basis of the complete URL to avoid possible collision if two images have the same
@@ -32,14 +43,16 @@ Homework #5 -- database and SharedPrefs
 
 5. DONE. Refactor RSSCache: move DB into helper (let RSSCache associate various sources)
 
-6. DONE: When network is not available but there is data in database, tell the user network is off and ask him whether he wants to see cached data
-   If there is no cached data, just say that network is not available -- in MainActivity
+6. DONE: When network is not available but there is data in database, tell the user network is off and ask him
+   whether he wants to see cached data. If there is no cached data, just say that network is not available
 
 7. Show time to the user in the user's timezone and locale format
 
-8. Can we rely on the RSSCache saves and retrieves data in the order entries come in the original RSSFeed or need to additionally sort it by Date?
+8. Can we rely on the RSSCache saves and retrieves data in the order entries come in the original RSSFeed
+   or need to additionally sort it by Date?
 
-9. Need to clean the cache directory: when its size exceeds some specific value, or when the cache is outdated (a newly downloaded rss brings all new images)
+9. Need to clean the cache directory: when its size exceeds some specific value, or when the cache is outdated
+   (a newly downloaded rss brings all new images)
 
 10. When showing the saved news, indicate somehow, that it is the cached version of the news that is shown.
 
@@ -57,18 +70,21 @@ Homework #5 -- database and SharedPrefs
     The interface is to be implemented in MainActivity.
     As a result, RSSDownloaderTask will be unaware of UI and will be able to work with Fragment as well.
 
-    TODO: I dont like how rssCache is shared between MainActivity and RSSDownloadTask. what could an alternative be?
+14. DONE. reimplement RSSCache as singleton and get rid of OnRSSDownloaderListener#getRSSCache.
+    With such an implementation, there is no longer a need to pass Context from MainActivity down to RSSCache
+    through RSSDownloaderTask.
     
-    Solution: let class RSSCache be singleton and access it directly instead of getRSSCache()
-    create the instance of RSSCache in Application.onCreate()
+    http://www.devahead.com/blog/2011/06/extending-the-android-application-class-and-dealing-with-singleton/
+    http://en.wikipedia.org/wiki/Singleton_pattern
+    http://stackoverflow.com/questions/2002288/static-way-to-get-context-on-android
   
-14. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
+15. Switch to using the package from here: http://code.google.com/p/android-imagedownloader/
 
-15. replace fill_parent with match_parent
+16. replace fill_parent with match_parent
 
-16. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
+17. do not recreate BitmapDownloaderTask tasks! one is enough to download all images
 
-17. for better code structuring, move all table column names into an interface that will contain but these names
+18. for better code structuring, move all table column names into an interface that will contain but these names
 
 Homework #4 -- basic functionality of RSSFeed
 ===========

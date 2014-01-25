@@ -19,8 +19,6 @@ public class RSSDownloaderTask
         public void onPreExecuteRSSDownload(int rStrId);
 
         public void onPostExecuteRSSDownload(RSSFeed feed);
-
-        public RSSCache getRSSCache();
     }
 
     public RSSDownloaderTask(OnRSSDownloaderListener listener) {
@@ -49,14 +47,14 @@ public class RSSDownloaderTask
     protected void onPreExecute() {
         super.onPreExecute();
 
+        rssCache = RSSCache.getInstance();
+        cacheIsUpToDate = rssCache.isUpToDate();
+
+        int rMsg = cacheIsUpToDate || useCachedDataOnly
+                ? R.string.loading_cached_data
+                : R.string.downloading_anew;
+
         if (listener != null) {
-            rssCache = listener.getRSSCache();
-            cacheIsUpToDate = rssCache.isUpToDate();
-
-            int rMsg = cacheIsUpToDate || useCachedDataOnly
-                    ? R.string.loading_cached_data
-                    : R.string.downloading_anew;
-
             listener.onPreExecuteRSSDownload(rMsg);
         }
     }

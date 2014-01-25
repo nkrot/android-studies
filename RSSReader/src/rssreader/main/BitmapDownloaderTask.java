@@ -28,7 +28,8 @@ public class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... args) {
         String url = args[0];
 
-        RSSCache rssCache = new RSSCache(targetImageView.getContext());
+        //RSSCache rssCache = new RSSCache(targetImageView.getContext());
+        RSSCache rssCache = RSSCache.getInstance();
 
         Bitmap bitmap = rssCache.getBitmap(url);
         if (bitmap == null) {

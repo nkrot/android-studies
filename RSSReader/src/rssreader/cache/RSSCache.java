@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.util.Log;
 
 public class RSSCache {
+    private static RSSCache instance;
     private static final String LOGTAG = "RSSCACHE";
 
     // SharedPreferences
@@ -30,7 +31,15 @@ public class RSSCache {
     private Context context;
     private RSSCacheDB db;
 
-    public RSSCache(Context context) {
+    public static void initInstance(Context context) {
+        instance = new RSSCache(context);
+    }
+
+    public static RSSCache getInstance() {
+        return instance;
+    }
+
+    private RSSCache(Context context) {
         this.context = context;
         this.db = null;
     }
@@ -41,7 +50,7 @@ public class RSSCache {
         Date lastDownloadTime = getDownloadTime();
         Date nowTime = new Date();
         long timeDiff = nowTime.getTime() - lastDownloadTime.getTime();
-        Boolean upToDate = timeDiff < EXPIRY_TIME_MILLISEC;
+        boolean upToDate = timeDiff < EXPIRY_TIME_MILLISEC;
 
         //SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         //Log.d(LOGTAG, "Now=" + df.format(nowTime) + " diff=" + String.valueOf(timeDiff));
@@ -70,6 +79,7 @@ public class RSSCache {
     }
 
     public void close() {
+        Log.d(LOGTAG, "close() called");
         if (db != null) {
             db.close();
         }

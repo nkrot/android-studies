@@ -47,7 +47,8 @@ public class MainActivity extends Activity
             }
         });
 
-        rssCache = new RSSCache(rssFeedView.getContext());
+        RSSCache.initInstance(rssFeedView.getContext());
+        rssCache = RSSCache.getInstance();
 
         // this will allow running the network operations on the main thread
         // this is a temporary fix I use when developing FeedDownloader
@@ -58,7 +59,7 @@ public class MainActivity extends Activity
     @Override
     public void onStop() {
         super.onStop();
-        rssCache.close();
+        rssCache.close(); // TODO: isn't is called too often? 
     }
 
     @Override
@@ -129,10 +130,6 @@ public class MainActivity extends Activity
     /*
      * implementation of rssreader.main.RSSDownloaderTask.OnRSSDownloaderListener
      */
-
-    public RSSCache getRSSCache() {
-        return rssCache;
-    }
 
     public void onPreExecuteRSSDownload(int rStrId) {
         progressDialog = ProgressDialog.show(rssFeedView.getContext(), null,
